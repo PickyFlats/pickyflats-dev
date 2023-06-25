@@ -8,7 +8,7 @@ import {
   PROFILES_BUCKET,
   PROFILES_ID,
   storage,
-} from '@/lib/client';
+} from '@/lib/client-old';
 
 import useAuthStore from '@/store/useAuthStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
@@ -44,7 +44,7 @@ export default function ProfileImage() {
 
   const profileAvatar = storage.getFilePreview(
     PROFILES_BUCKET,
-    user!.profile_img
+    user!.profilePicture
   );
   return (
     <>

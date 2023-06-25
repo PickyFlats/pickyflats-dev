@@ -5,7 +5,7 @@ import {
   databases,
   LISTINGCOSTS_ID,
   LISTINGS_ID,
-} from '@/lib/client';
+} from '@/lib/client-old';
 
 import { Listing } from '@/types/listing';
 

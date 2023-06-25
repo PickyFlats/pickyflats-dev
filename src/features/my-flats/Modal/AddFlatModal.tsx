@@ -11,27 +11,24 @@ import { useFlatStore } from '@/store/flatStore';
 import useAuthStore from '@/store/useAuthStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
 
-const Purpose = dynamic(() => import('@/features/my-flats/steps/Purpose'), {
-  ssr: false,
-});
-const FeaturesAndPolicies = dynamic(
-  () => import('@/features/my-flats/steps/Features'),
-  { ssr: false }
+import Loader from '../../../components/Loader/index';
+
+const DynamicComp = (importRef) =>
+  dynamic(() => importRef, {
+    ssr: false,
+    loading: () => <Loader />,
+  });
+
+const Purpose = DynamicComp(import('@/features/my-flats/steps/Purpose'));
+const FeaturesAndPolicies = DynamicComp(
+  import('@/features/my-flats/steps/Features')
 );
-const FlatTypesPage = dynamic(
-  () => import('@/features/my-flats/steps/FlatType'),
-  { ssr: false }
+const FlatTypesPage = DynamicComp(import('@/features/my-flats/steps/FlatType'));
+const Gallery = DynamicComp(import('@/features/my-flats/steps/Gallery'));
+const ContactAndLocation = DynamicComp(
+  import('@/features/my-flats/steps/Location')
 );
-const Gallery = dynamic(() => import('@/features/my-flats/steps/Gallery'), {
-  ssr: false,
-});
-const ContactAndLocation = dynamic(
-  () => import('@/features/my-flats/steps/Location'),
-  { ssr: false }
-);
-const Pricing = dynamic(() => import('@/features/my-flats/steps/Pricing'), {
-  ssr: false,
-});
+const Pricing = DynamicComp(import('@/features/my-flats/steps/Pricing'));
 
 type Step = { key: string; title: string; component: React.ReactNode };
 
@@ -134,9 +131,8 @@ export const AddFlatModal = ({
         flatAmenities: _flatAmenities,
         flatPolicies: _flatPolicies,
         ...basics,
-        gallery: JSON.stringify(gallery),
+        gallery: gallery,
         ...contactAndLocation,
-        userID: user?.$id,
       });
 
       await saveListingCost({

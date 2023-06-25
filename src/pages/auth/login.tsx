@@ -15,7 +15,7 @@ import { BiHide } from 'react-icons/bi';
 import { HiOutlineMail } from 'react-icons/hi';
 import { ImSpinner2 } from 'react-icons/im';
 
-import { account } from '@/lib/client';
+import api from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 
 import AuthLayout from '@/components/layout/AuthLayout';
@@ -48,11 +48,14 @@ export default function LoginPage() {
     try {
       setLoginError('');
       setIsLoading(true);
-      await account.createEmailSession(data.email, data.password);
-      const token = (await account.createJWT()).jwt;
-      Cookies.set('token', token);
-      // hard refresh on login
-      window.location.href = '/dashboard';
+
+      const loginRes = await api.post('/auth/login', data);
+      const { accessToken } = loginRes.data;
+      if (accessToken) {
+        Cookies.set('token', accessToken);
+        // hard refresh on login
+        window.location.href = '/dashboard';
+      }
     } catch (error: any) {
       setLoginError(error?.message);
     } finally {

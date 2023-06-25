@@ -6,11 +6,10 @@ import { BiComment } from 'react-icons/bi';
 import { FcLike } from 'react-icons/fc';
 import { MdBathroom, MdBedroomParent, MdKitchen } from 'react-icons/md';
 
-import { CONTENT_BUCKET, storage } from '@/lib/client';
+import { CONTENT_BUCKET, storage } from '@/lib/client-old';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
-import { deleteListing } from '@/database/listing';
 import { AllFlatTypes } from '@/datas/flatTypes';
 
 import { Iroom } from '@/store/flatStore';
@@ -45,7 +44,7 @@ export const MyFlatCard = (props: Iprop) => {
         await storage.deleteFile(CONTENT_BUCKET, photoID);
       }
     }
-    await deleteListing(data?.$id, data?.costs?.$id);
+    // await deleteListing(data?.$id, data?.costs?.$id);
 
     openSnackbar('Listing delete successfully', 'warning', {
       horizontal: 'center',
@@ -60,8 +59,8 @@ export const MyFlatCard = (props: Iprop) => {
   useEffect(() => {
     const decodeGallery = () => {
       try {
-        const _gallery: Iroom[] = JSON.parse(data!.gallery.toString());
-        setGallery(_gallery);
+        // const _gallery: Iroom[] = JSON.parse(data!.gallery.toString());
+        setGallery(data?.gallery || []);
       } catch (error) {
         logger('Listing Gallery load failed');
       }
@@ -90,7 +89,7 @@ export const MyFlatCard = (props: Iprop) => {
         className={clsxm(
           'bg-secondary-main ', //!TODO: try for better theming
           // 'shadow-md',
-          'relative flex h-[450px]  w-[300px] flex-col items-center justify-center rounded-3xl p-3 align-middle'
+          'relative flex h-[450px]  w-[300px] flex-col items-center justify-center rounded-lg p-3 pt-4 align-middle'
         )}
       >
         <div className='relative z-50 h-[30vh] w-full rounded-3xl'>

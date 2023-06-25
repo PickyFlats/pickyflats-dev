@@ -18,7 +18,7 @@ import { CgMenuRightAlt } from 'react-icons/cg';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { IoPersonCircle } from 'react-icons/io5';
 
-import { PROFILES_BUCKET, storage } from '@/lib/client';
+import { PROFILES_BUCKET, storage } from '@/lib/client-old';
 
 import useAuthStore from '@/store/useAuthStore';
 import useDrawerStore from '@/store/useDrawerStore';
@@ -69,7 +69,7 @@ export const NavBar = () => {
   const accountAnchorRef = useRef<HTMLDivElement>(null);
 
   const userAvatar = isAuthenticated
-    ? storage.getFilePreview(PROFILES_BUCKET, user!.profile_img)
+    ? storage.getFilePreview(PROFILES_BUCKET, user!.profilePicture)
     : null;
 
   const isHomePage = pathname === '/';
@@ -135,11 +135,13 @@ export const NavBar = () => {
                 <div className='my-auto px-2 text-base'>
                   Hi,
                   <span className='text-primary-main pl-1 font-medium'>
-                    {isMediumScreen ? user?.name?.split(' ')?.[0] : user?.name}
+                    {isMediumScreen
+                      ? user?.firstName
+                      : `${user?.firstName} ${user?.lastName}`}
                   </span>
                 </div>
               )}
-              {user?.profile_img ? (
+              {user?.profilePicture ? (
                 <img
                   src={userAvatar?.href}
                   alt='Avatar'

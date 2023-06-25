@@ -1,15 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 
-import {
-  client,
-  CONVERSATIONS_ID,
-  DATABASE_ID,
-  MESSAGES_BUCKET,
-  storage,
-} from '@/lib/client';
-
-import { getMessageById } from '@/database/message';
+import withAppURL from '@/lib/url';
 
 import MessageItem from '@/components/chat/MessageItem';
 
@@ -30,25 +22,22 @@ export default function ChatMessages({
   const { messages, onNewMessage } = useChatStore();
   const { setImages } = useLightBoxStore();
   React.useEffect(() => {
-    const unsubscribe = client.subscribe(
-      `databases.${DATABASE_ID}.collections.${CONVERSATIONS_ID}.documents.${conversationId}`,
-      (chat) => {
-        const chatPayload: any = chat.payload;
-        const newMessageId = chatPayload?.lastMessageID;
-
-        const loadNewMessage = async () => {
-          const newMessage = await getMessageById(newMessageId);
-          onNewMessage(newMessage);
-
-          //TODO: ! same msg push render issue
-        };
-        loadNewMessage();
-        // cb for on new message
-        cbOnNewMessage?.();
-      }
-    );
-
-    return () => unsubscribe();
+    // const unsubscribe = client.subscribe(
+    //   `databases.${DATABASE_ID}.collections.${CONVERSATIONS_ID}.documents.${conversationId}`,
+    //   (chat) => {
+    //     const chatPayload: any = chat.payload;
+    //     const newMessageId = chatPayload?.lastMessageID;
+    //     const loadNewMessage = async () => {
+    //       const newMessage = await getMessageById(newMessageId);
+    //       onNewMessage(newMessage);
+    //       //TODO: ! same msg push render issue
+    //     };
+    //     loadNewMessage();
+    //     // cb for on new message
+    //     cbOnNewMessage?.();
+    //   }
+    // );
+    // return () => unsubscribe();
   }, [cbOnNewMessage, conversationId, onNewMessage]);
 
   React.useEffect(() => {
@@ -58,8 +47,7 @@ export default function ChatMessages({
       .map((id) => {
         const __attachments: string[] = [];
         messages.byId[id].attachments.map((a) => {
-          const attachment = storage.getFileView(MESSAGES_BUCKET, a);
-          __attachments.push(attachment.href);
+          __attachments.push(withAppURL(`/files/${a}`));
         });
         _attachments.push(...__attachments);
       });

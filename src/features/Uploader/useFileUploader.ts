@@ -1,7 +1,6 @@
-import { ID } from 'appwrite';
 import { useState } from 'react';
 
-import { CONTENT_BUCKET, storage } from '@/lib/client';
+import api from '@/lib/api';
 
 interface IUseFileUploader {
   onSuccess: (keys: string[] | null) => void;
@@ -20,13 +19,12 @@ function useFileUploader({ onSuccess, mykeys, setMyKeys }: IUseFileUploader) {
     try {
       const newUploadedIDs: string[] = [...(uploadedFileIDs ?? [])];
       for await (const file of files) {
-        const uploadedFile = await storage.createFile(
-          CONTENT_BUCKET,
-          ID.unique(),
-          file
-        );
-        setUploadedFileIDs((keys) => [...keys, uploadedFile.$id]);
-        newUploadedIDs.push(uploadedFile.$id);
+        const formData = new FormData();
+        formData.append('file', file);
+        const uploadRes = await api.post('/files/upload', formData);
+        const fileID = uploadRes.data?._id;
+        setUploadedFileIDs((keys) => [...keys, fileID]);
+        newUploadedIDs.push(fileID);
       }
       onSuccess(newUploadedIDs);
     } catch (error: any) {

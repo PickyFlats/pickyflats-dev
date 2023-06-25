@@ -1,11 +1,9 @@
 export type User = {
   $id: string;
-  $createdAt: string;
-  $updatedAt: string;
-  name: string;
-  registration: string;
+  _id: string;
+  firstName: string;
+  lastName: string;
   status: boolean;
-  passwordUpdate: string;
   email: string;
   phone: string;
   emailVerification: boolean;
@@ -13,19 +11,18 @@ export type User = {
   prefs: [key: string];
 } & UserProfile;
 
+type Role = 'user' | 'seller' | 'admin';
 // profiles data
 export type UserProfile = {
-  $id: string;
-  $createdAt: string;
-  name: string;
-  role: 'user' | 'seller' | 'admin';
-  profile_img: string;
-  listenerID: string;
+  roles: Role[];
+  profilePicture: string;
   profileVerified: any;
   accountType: string;
-  lastActivity: string;
   personalInterest: any[];
   referredSource: any[];
   country: string;
   city: string;
+  userId: string;
+  listenerID: string;
+  lastActivity: string;
 };

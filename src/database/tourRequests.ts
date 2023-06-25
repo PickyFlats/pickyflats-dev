@@ -7,7 +7,7 @@ import {
   LISTINGS_ID,
   PROFILES_ID,
   TOURREQUESTS_ID,
-} from '@/lib/client';
+} from '@/lib/client-old';
 
 import { Listing } from '@/types/listing';
 import { User } from '@/types/user';

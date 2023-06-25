@@ -12,7 +12,7 @@ import {
 import { BiHide, BiShow } from 'react-icons/bi';
 import { ImSpinner2 } from 'react-icons/im';
 
-import { account } from '@/lib/client';
+import { account } from '@/lib/client-old';
 import clsxm from '@/lib/clsxm';
 
 import AuthLayout from '@/components/layout/AuthLayout';

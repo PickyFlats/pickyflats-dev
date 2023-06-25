@@ -1,6 +1,6 @@
 import { ID, Query } from 'appwrite';
 
-import { DATABASE_ID, databases, LISTENERS_ID } from '@/lib/client';
+import { DATABASE_ID, databases, LISTENERS_ID } from '@/lib/client-old';
 
 import { updateUserProfileById } from '@/database/user';
 

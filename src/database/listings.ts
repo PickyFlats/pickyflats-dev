@@ -1,10 +1,16 @@
-import { ID, Query } from 'appwrite';
+import { Query } from 'appwrite';
 
-import { DATABASE_ID, databases, LISTINGCOSTS_ID } from '@/lib/client';
+import api from '@/lib/api';
+import { DATABASE_ID, databases, LISTINGCOSTS_ID } from '@/lib/client-old';
 
-import { LISTINGS_ID } from '../lib/client';
+import { LISTINGS_ID } from '../lib/client-old';
 
 import { Listing } from '@/types/listing';
+
+export const fetchMyListings = async () => {
+  const listingsRes = await api.get('/listings/me');
+  return listingsRes.data;
+};
 
 interface ListingFetchProps {
   byFlatType?: number;
@@ -87,20 +93,10 @@ export const fetchListingsByUserId = async (userID) => {
 };
 
 export const createListing = async (data) => {
-  const newListing = await databases.createDocument(
-    DATABASE_ID,
-    LISTINGS_ID,
-    ID.unique(),
-    data
-  );
-  return newListing.$id;
+  const listingRes = await api.post('/listings/new', data);
+  return listingRes.data?.id;
 };
 
 export const saveListingCost = async (data) => {
-  await databases.createDocument(
-    DATABASE_ID,
-    LISTINGCOSTS_ID,
-    ID.unique(),
-    data
-  );
+  await api.post('/listing-costs/new', data);
 };

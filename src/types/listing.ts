@@ -1,4 +1,7 @@
+import { Iroom } from '@/store/flatStore';
+
 export type Listing = {
+  $id: string;
   purpose: 'sell' | 'rent';
   flatTypes: number[];
   buildingAmenities: string[];
@@ -7,7 +10,8 @@ export type Listing = {
   room: number;
   bathroom: number;
   kitchen: number;
-  gallery: string | object;
+  // gallery: string | object;
+  gallery: Iroom[];
   sellerCountry: string;
   sellerCity: string;
   sellerEmail: string;
@@ -20,12 +24,8 @@ export type Listing = {
   liked_by: string[];
   saved_by: string[];
   sellerContact: any;
-  $id: string;
-  $createdAt: string;
-  $updatedAt: string;
-  $permissions: string[];
-  $collectionId: string;
-  $databaseId: string;
+  // $createdAt: string;
+  // $updatedAt: string;
   costs?: Costs;
 };
 
@@ -53,10 +53,8 @@ export interface Costs {
   maintenanceRepairs: number;
   otherCost: number;
   listingID: string;
-  $id: string;
-  $createdAt: string;
-  $updatedAt: string;
-  $permissions: string[];
-  $collectionId: string;
-  $databaseId: string;
+
+  // $id: string;
+  // $createdAt: string;
+  // $updatedAt: string;
 }

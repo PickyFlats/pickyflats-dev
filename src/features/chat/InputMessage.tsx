@@ -1,19 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import { IconButton, Tooltip } from '@mui/material';
-import { ID } from 'appwrite';
 import React, { useState } from 'react';
 import { BiImage } from 'react-icons/bi';
 
-import {
-  CONVERSATIONS_ID,
-  DATABASE_ID,
-  databases,
-  MESSAGES_BUCKET,
-  MESSAGES_ID,
-  storage,
-} from '@/lib/client';
+import api from '@/lib/api';
 
-import { pushListenerUpdate } from '@/database/listener';
+import { sendMessage } from '@/database/message';
 
 import useAuthStore from '@/store/useAuthStore';
 import useChatStore from '@/store/useChatStore';
@@ -51,41 +43,33 @@ export default function ChatInputMessage({
 
     // upload attachment if exits
     if (selectedAttachment) {
-      const uploadedAttachment = await storage.createFile(
-        MESSAGES_BUCKET,
-        ID.unique(),
-        selectedAttachment
-      );
-      attachments.push(uploadedAttachment.$id);
+      const formData = new FormData();
+      formData.append('file', selectedAttachment);
+      const uploadRes = await api.post('/files/upload', formData);
+      attachments.push(uploadRes.data);
     }
 
-    const newMessage = await databases.createDocument(
-      DATABASE_ID,
-      MESSAGES_ID,
-      ID.unique(),
-      {
-        conversationID,
-        senderID: user?.$id,
-        message: inputText,
-        attachments,
-      }
-    );
+    const newMessage = await sendMessage({
+      conversationID,
+      message: inputText,
+      attachments,
+    });
 
     onNewMessageConversation(conversationID, newMessage);
 
     // update timestamp in conversation id for conversation listeners
-    await databases.updateDocument(
-      DATABASE_ID,
-      CONVERSATIONS_ID,
-      conversationID,
-      {
-        lastMessageID: newMessage.$id,
-        lastUpdated: new Date(),
-      }
-    );
+    // await databases.updateDocument(
+    //   DATABASE_ID,
+    //   CONVERSATIONS_ID,
+    //   conversationID,
+    //   {
+    //     lastMessageID: newMessage.$id,
+    //     lastUpdated: new Date(),
+    //   }
+    // );
 
     // push for listeners update
-    await pushListenerUpdate(receiverID, 'Message');
+    // await pushListenerUpdate(receiverID, 'Message');
   };
 
   const handleSubmit = async () => {

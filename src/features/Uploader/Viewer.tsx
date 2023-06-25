@@ -3,17 +3,15 @@ interface Iprops {
   fileID: string;
 }
 
-import { CONTENT_BUCKET, storage } from '@/lib/client';
+import { withCDNURL } from '@/lib/url';
 
 export const Viewer = (props: Iprops) => {
   const { fileID } = props;
 
-  const file = storage.getFilePreview(CONTENT_BUCKET, fileID);
-
   return (
-    <div className='relative h-[200px] w-full'>
+    <div className='relative h-[200px] w-full border border-solid border-gray-200'>
       <img
-        src={file.href}
+        src={withCDNURL(`/files/${fileID}`)}
         alt='preview image'
         className=' h-full w-full object-cover'
       />

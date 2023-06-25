@@ -5,7 +5,7 @@ import {
   databases,
   LISTINGS_ID,
   RESERVATIONS_ID,
-} from '@/lib/client';
+} from '@/lib/client-old';
 
 export const createListingReservation = async (data) => {
   const newReservation = await databases.createDocument(

@@ -54,7 +54,8 @@ export default function UserMessagePage() {
       return;
     }
     const _chatUserId = _conversation.participants.find((i) => i !== user?.$id);
-    const validConversation = _conversation.participants.includes(user?.$id);
+    const validConversation =
+      _conversation.participants.findIndex((i) => i === user?.$id) !== -1;
     // invalidate the conversation if session user is not in the list
     if (!validConversation) {
       throw new AppwriteException('Invalid conversation attempt', 404);

@@ -1,6 +1,11 @@
 import { ID, Query } from 'appwrite';
 
-import { COMMENTS_ID, DATABASE_ID, databases, PROFILES_ID } from '@/lib/client';
+import {
+  COMMENTS_ID,
+  DATABASE_ID,
+  databases,
+  PROFILES_ID,
+} from '@/lib/client-old';
 
 import { Comment } from '@/types/comment';
 

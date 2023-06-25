@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import { isEmptyArray } from '@/lib/helper';
 
-import { fetchListingsByUserId } from '@/database/listings';
+import { fetchMyListings } from '@/database/listings';
 
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import Loader from '@/components/Loader';
@@ -40,7 +40,7 @@ export default function MyFlats() {
 
   const fetchMyListingsData = async () => {
     try {
-      const myFlats = await fetchListingsByUserId(user?.$id);
+      const myFlats = await fetchMyListings();
       setMyFlats(myFlats);
     } catch (error) {
       openSnackbar('Failed to fetch my listings', 'error');
@@ -51,7 +51,7 @@ export default function MyFlats() {
 
   useEffect(() => {
     fetchMyListingsData();
-  }, [refreshCount, user?.$id]);
+  }, [refreshCount]);
 
   const handleVerificationModal = () => {
     openSnackbar('Feature not implemented!', 'info');

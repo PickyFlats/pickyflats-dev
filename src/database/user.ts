@@ -1,5 +1,13 @@
-import { DATABASE_ID, databases, PROFILES_ID } from '@/lib/client';
+import api from '@/lib/api';
+
+export const updateCurrentUser = async (data) => {
+  await api.patch('/users/me', data);
+};
+
+export const updateCurrentUserProfile = async (data) => {
+  await api.patch('/profiles/me', data);
+};
 
 export const updateUserProfileById = async (userID, data) => {
-  await databases.updateDocument(DATABASE_ID, PROFILES_ID, userID, data);
+  // await api.patch('/profiles/me', data);
 };

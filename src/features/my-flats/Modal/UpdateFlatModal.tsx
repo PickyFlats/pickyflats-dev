@@ -63,13 +63,11 @@ type FormData = {
 
 export const UpdateFlatModalContents = ({
   listingID,
-  listingCostsID,
   open = false,
   onListingSaved,
   onClose,
 }: {
   listingID: string;
-  listingCostsID: string;
   open?: boolean;
   onListingSaved?: () => void;
   onClose?: () => void;
@@ -141,12 +139,11 @@ export const UpdateFlatModalContents = ({
         flatAmenities: _flatAmenities,
         flatPolicies: _flatPolicies,
         ...basics,
-        gallery: JSON.stringify(gallery),
+        gallery: gallery, //!TODO: gallery
         ...contactAndLocation,
-        userID: user?.$id,
       });
 
-      await updateListingCost(listingCostsID, {
+      await updateListingCost(listingID, {
         // ...costs, // !either clear default meta fields provied by appwrite
         negotiable: 'Negotiable',
         cleaningFee: costs.cleaningFee,
@@ -301,7 +298,9 @@ export const UpdateFlatModal = ({ data }: { data: Listing }) => {
       room: data.room,
     });
 
-    setGallery(JSON.parse(data.gallery as string));
+    // ! todo; with file uploading
+    setGallery(data.gallery || []);
+    // setGallery(JSON.parse(data.gallery as string));
 
     setContactAndLocation({
       flatCity: data.flatCity,
@@ -339,7 +338,6 @@ export const UpdateFlatModal = ({ data }: { data: Listing }) => {
         <>
           <UpdateFlatModalContents
             listingID={data.$id}
-            listingCostsID={data.costs!.$id}
             open={true}
             onClose={handleClose}
             onListingSaved={refresh}

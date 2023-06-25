@@ -1,7 +1,6 @@
 import { Button } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-import { ID } from 'appwrite';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -16,10 +15,8 @@ import { HiOutlineMail } from 'react-icons/hi';
 import { ImSpinner2 } from 'react-icons/im';
 import { MdOutlinePersonOutline } from 'react-icons/md';
 
-import { account, DATABASE_ID, databases, PROFILES_ID } from '@/lib/client';
+import api from '@/lib/api';
 import clsxm from '@/lib/clsxm';
-
-import { createListener } from '@/database/listener';
 
 import AuthLayout from '@/components/layout/AuthLayout';
 import Seo from '@/components/Seo';
@@ -61,24 +58,18 @@ const RegisterPage = () => {
       return;
     }
 
-    const fullName = `${data.firstName} ${data.lastName}`;
-
     try {
       setIsLoading(true);
-      await account.create(ID.unique(), data.email, data.password, fullName);
-      await account.createEmailSession(data.email, data.password);
-      const user = await account.get();
-      const token = (await account.createJWT()).jwt;
-      Cookies.set('token', token);
-      // save role to profiles data
-      await databases.createDocument(DATABASE_ID, PROFILES_ID, user.$id, {
-        name: fullName,
-        email: data.email, //!FUTURE - better approach - used for sending email notification
-        role: 'user',
-      });
+
+      const registerRes = await api.post('/auth/register', data);
+
+      const { accessToken } = registerRes.data;
+      if (accessToken) {
+        Cookies.set('token', accessToken);
+      }
 
       // create listener for notification & message updates
-      await createListener(user.$id);
+      // await createListener(user.$id);
 
       // hard refresh
       window.location.href = '/onboarding';

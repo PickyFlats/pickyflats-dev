@@ -2,9 +2,7 @@ import { Button } from '@mui/material';
 import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { account } from '@/lib/client';
-
-import { updateUserProfileById } from '@/database/user';
+import { updateCurrentUser } from '@/database/user';
 
 import useAuthStore from '@/store/useAuthStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
@@ -13,7 +11,8 @@ import TextField from '@/features/HookForm/TextField';
 
 interface FormData {
   email: string;
-  name: string;
+  firstName: string;
+  lastName: string;
 }
 
 export default function ProfileInformationForm() {
@@ -21,7 +20,8 @@ export default function ProfileInformationForm() {
   const methods = useForm<FormData>({
     defaultValues: {
       email: user?.email,
-      name: user?.name,
+      firstName: user?.firstName,
+      lastName: user?.lastName,
     },
   });
   const { control } = methods;
@@ -31,8 +31,10 @@ export default function ProfileInformationForm() {
   const onSubmit = async (data: FormData) => {
     try {
       setLoading(true);
-      await account.updateName(data.name);
-      await updateUserProfileById(user?.$id, { name: data.name }); //
+      await updateCurrentUser({
+        firstName: data.firstName,
+        lastName: data.lastName,
+      }); //
       openSnackbar('Profile updated successfully!');
     } catch (error) {
       openSnackbar('Profile update failed!', 'error');
@@ -48,7 +50,7 @@ export default function ProfileInformationForm() {
       </div>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} className='space-y-4'>
-          <div className='flex flex-col lg:flex-row lg:space-x-4'>
+          <div className='flex flex-col max-lg:gap-y-8 lg:flex-row lg:space-x-4'>
             <TextField
               control={control}
               name='email'
@@ -59,8 +61,14 @@ export default function ProfileInformationForm() {
             />
             <TextField
               control={control}
-              name='name'
-              label='Full Name'
+              name='firstName'
+              label='First Name'
+              className='!lg:w-1/2 !mt-0 w-full'
+            />
+            <TextField
+              control={control}
+              name='lastName'
+              label='Last Name'
               className='!lg:w-1/2 !mt-0 w-full'
             />
           </div>

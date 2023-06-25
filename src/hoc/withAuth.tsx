@@ -5,9 +5,10 @@ import { useRouter } from 'next/router';
 import * as React from 'react';
 import { ImSpinner8 } from 'react-icons/im';
 
-import { account, DATABASE_ID, databases, PROFILES_ID } from '@/lib/client';
+import api from '@/lib/api';
+import { isValidToken, setSession } from '@/lib/jwt';
 
-import { updateUserProfileById } from '@/database/user';
+import { updateCurrentUser } from '@/database/user';
 
 import useAuthStore from '@/store/useAuthStore';
 
@@ -64,23 +65,20 @@ export default function withAuth<T extends WithAuthProps = WithAuthProps>(
     const checkAuth = React.useCallback(() => {
       // const token = getFromLocalStorage('token');
       const token = Cookies.get('token');
-      if (!token) {
+      if (!token || !isValidToken(token)) {
         isAuthenticated && logout();
         stopLoading();
         return;
       }
+      setSession(token);
+
       const loadUser = async () => {
         try {
-          const user = await account.get();
-          // fetch user profile data from db
-          const userProfile = await databases.getDocument(
-            DATABASE_ID,
-            PROFILES_ID,
-            user.$id
-          );
-          const { role, profile_img, listenerID } = userProfile;
+          const userRes = await api.get('/users/me');
+          // const { role, profile_img, listenerID } = userProfile;
 
-          login({ ...user, ...{ role, profile_img, listenerID } } as any);
+          // login({ ...userRes.data, ...{ role, profile_img, listenerID } } as any);
+          login({ ...userRes.data } as any);
         } catch (err) {
           Cookies.remove('token');
         } finally {
@@ -97,7 +95,7 @@ export default function withAuth<T extends WithAuthProps = WithAuthProps>(
     React.useEffect(() => {
       if (!isAuthenticated) return;
       const updateLastActivity = async () => {
-        await updateUserProfileById(user?.$id, { lastActivity: new Date() });
+        await updateCurrentUser({ lastActivity: new Date() });
       };
       // update immediatly on state change detected from
       updateLastActivity();

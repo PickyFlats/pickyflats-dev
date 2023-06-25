@@ -1,13 +1,14 @@
 import { Account, Client, Databases, Functions, Storage } from 'appwrite';
 
-import { APPWRITE_ENV_MODE, appwriteConfig } from '@/lib/config';
+import { appwriteConfig } from '@/lib/config';
 
-const ENV_MODE: APPWRITE_ENV_MODE = (process.env.NEXT_PUBLIC_APPWRITE_MODE ||
-  'CLOUD') as APPWRITE_ENV_MODE;
+// const ENV_MODE: APPWRITE_ENV_MODE = (process.env.NEXT_PUBLIC_APPWRITE_MODE ||
+//   'CLOUD') as APPWRITE_ENV_MODE;
+const ENV_MODE = 'CLOUD';
 
-export const client = new Client()
-  .setEndpoint(appwriteConfig[ENV_MODE].API_ENDPOINT!) // APPWRITE API Endpoint
-  .setProject(appwriteConfig[ENV_MODE].PROJECT_ID!); // APPWRITE project ID
+export const client = new Client();
+// .setEndpoint(appwriteConfig[ENV_MODE].API_ENDPOINT!) // APPWRITE API Endpoint
+// .setProject(appwriteConfig[ENV_MODE].PROJECT_ID!); // APPWRITE project ID
 
 export const account = new Account(client);
 

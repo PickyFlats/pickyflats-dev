@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MESSAGES_BUCKET, storage } from '@/lib/client';
+import { MESSAGES_BUCKET, storage } from '@/lib/client-old';
 
 export default function MessageAttachment({ id }) {
   const attachment = storage.getFilePreview(MESSAGES_BUCKET, id);

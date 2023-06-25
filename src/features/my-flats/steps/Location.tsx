@@ -2,7 +2,7 @@ import { Divider, IconButton } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { FaMapMarker, FaStreetView } from 'react-icons/fa';
 import { GrMapLocation } from 'react-icons/gr';
-import { MdAttachEmail, MdPhonePaused } from 'react-icons/md';
+import { MdAttachEmail, MdPhone } from 'react-icons/md';
 
 import { IcontactAndLocation } from '@/store/flatStore';
 import { useFlatStore } from '@/store/flatStore';
@@ -52,7 +52,7 @@ const ContactAndLocation = () => {
                 <IconButton>
                   <MdAttachEmail />
                 </IconButton>
-                <span className='relative top-[10px] text-base font-semibold capitalize text-black opacity-80  '>
+                <span className='relative top-[10px] text-base font-semibold text-black opacity-80  '>
                   {contactAndLocation.sellerEmail}
                 </span>
               </div>
@@ -62,7 +62,7 @@ const ContactAndLocation = () => {
             {contactAndLocation.sellerContact && (
               <div className='flex'>
                 <IconButton className=' '>
-                  <MdPhonePaused className='' />
+                  <MdPhone className='' />
                 </IconButton>
                 <span className='relative top-[10px] text-base font-semibold capitalize text-black opacity-80 '>
                   {contactAndLocation.sellerContact}

@@ -11,7 +11,7 @@ import {
 } from 'react-hook-form';
 import { HiOutlineMail } from 'react-icons/hi';
 
-import { account } from '@/lib/client';
+import { account } from '@/lib/client-old';
 import withAppURL from '@/lib/url';
 
 import AuthLayout from '@/components/layout/AuthLayout';

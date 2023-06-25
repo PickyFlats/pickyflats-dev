@@ -1,50 +1,23 @@
-import { Query } from 'appwrite';
-
+import api from '@/lib/api';
 import {
   DATABASE_ID,
   databases,
   LISTINGCOSTS_ID,
   LISTINGS_ID,
-} from '@/lib/client';
-
-import { Listing } from '@/types/listing';
+} from '@/lib/client-old';
 
 export const fetchListingById = async (listingID) => {
-  const _listing = await databases.getDocument(
-    DATABASE_ID,
-    LISTINGS_ID,
-    listingID
-  );
-
-  // fetch all listing costs
-  const _listingCosts = await databases.listDocuments(
-    DATABASE_ID,
-    LISTINGCOSTS_ID,
-    [Query.equal('listingID', _listing.$id)]
-  );
-
-  return { ..._listing, costs: _listingCosts.documents[0] } as Listing;
+  const listingRes = await api.get(`/listings/${listingID}`);
+  return listingRes.data;
 };
 
 // update listing
-
 export const updateListingById = async (listingID, data) => {
-  const newListing = await databases.updateDocument(
-    DATABASE_ID,
-    LISTINGS_ID,
-    listingID,
-    data
-  );
-  return newListing.$id;
+  await api.patch(`/listings/${listingID}`, data);
 };
 
-export const updateListingCost = async (listingCostID, data) => {
-  await databases.updateDocument(
-    DATABASE_ID,
-    LISTINGCOSTS_ID,
-    listingCostID,
-    data
-  );
+export const updateListingCost = async (listingID, data) => {
+  await api.patch(`/listing-costs/listing/${listingID}`, data);
 };
 
 // delete

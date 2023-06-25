@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { updateUserProfileById } from '@/database/user';
+import { updateCurrentUserProfile } from '@/database/user';
 
 import useAuthStore from '@/store/useAuthStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
@@ -82,21 +82,21 @@ const Onboarding = () => {
     try {
       setLoading(true);
 
-      const personalInterest: string[] = [];
-      if (data.buyFlat) personalInterest.push('BuyFlat');
-      if (data.sellFlat) personalInterest.push('SellFlat');
-      if (data.findRoomMate) personalInterest.push('FindFlatMate');
-      if (data.rentFlates) personalInterest.push('RentFlat');
+      const personalInterests: string[] = [];
+      if (data.buyFlat) personalInterests.push('BuyFlat');
+      if (data.sellFlat) personalInterests.push('SellFlat');
+      if (data.findRoomMate) personalInterests.push('FindFlatMate');
+      if (data.rentFlates) personalInterests.push('RentFlat');
 
-      const referredSource: string[] = [];
-      if (data.google) referredSource.push('Google');
-      if (data.facebook) referredSource.push('Facebook');
-      if (data.instagram) referredSource.push('Instagram');
-      if (data.twitter) referredSource.push('Twitter');
+      const referredSources: string[] = [];
+      if (data.google) referredSources.push('Google');
+      if (data.facebook) referredSources.push('Facebook');
+      if (data.instagram) referredSources.push('Instagram');
+      if (data.twitter) referredSources.push('Twitter');
 
-      await updateUserProfileById(user?.$id, {
-        personalInterest,
-        referredSource,
+      await updateCurrentUserProfile({
+        personalInterests,
+        referredSources,
         country: data.country?.value, //! TODO: pass value only
         city: data.city,
       });

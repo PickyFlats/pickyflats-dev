@@ -7,7 +7,7 @@ import {
   LISTINGS_ID,
   NOTIFICATIONS_ID,
   PROFILES_ID,
-} from '@/lib/client';
+} from '@/lib/client-old';
 
 import { getCommentsByIDs } from '@/database/comment';
 

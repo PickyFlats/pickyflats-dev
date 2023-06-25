@@ -4,13 +4,13 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { MdOutlineArrowBack } from 'react-icons/md';
 
-import { PROFILES_BUCKET, storage } from '@/lib/client';
+import { PROFILES_BUCKET, storage } from '@/lib/client-old';
 import useResponsive from '@/hooks/useResponsive';
 
 export default function ChatActiveHeader({ user }: { user? }) {
   const chatUserAvatar = storage.getFilePreview(
     PROFILES_BUCKET,
-    user?.profile_img
+    user?.profilePicture
   );
 
   // last activity
@@ -28,6 +28,7 @@ export default function ChatActiveHeader({ user }: { user? }) {
 
   const isMediumScreen = useResponsive('down', 'lg');
 
+  const fullName = `${user?.firstName} ${user?.lastName}`;
   return (
     <div className='flex items-center border-b border-gray-200 p-4'>
       {isMediumScreen && (
@@ -36,7 +37,7 @@ export default function ChatActiveHeader({ user }: { user? }) {
         </IconButton>
       )}
       <div className='bg-primary-light relative inline-flex h-10 w-10 items-center justify-center rounded-full'>
-        {user?.profile_img ? (
+        {user?.profilePicture ? (
           <img
             src={chatUserAvatar.href}
             alt='Avatar'
@@ -44,7 +45,7 @@ export default function ChatActiveHeader({ user }: { user? }) {
           />
         ) : (
           <span className='text-md font-bold uppercase text-white'>
-            {user?.name.substring(0, 2).toUpperCase()}
+            {`${user?.firstName?.[0].toUpperCase()}${user?.lastName?.[0].toUpperCase()}`}
           </span>
         )}
         <span
@@ -53,7 +54,7 @@ export default function ChatActiveHeader({ user }: { user? }) {
           }`}
         />
       </div>
-      <h2 className='ml-4 font-bold'>{user?.name}</h2>
+      <h2 className='ml-4 font-bold'>{fullName}</h2>
     </div>
   );
 }

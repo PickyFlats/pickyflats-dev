@@ -16,7 +16,6 @@ import { AllFlatTypes } from '@/datas/flatTypes';
 import MainLayout from '@/components/layout/MainLayout';
 import Modal from '@/components/Modal';
 
-import { Iroom } from '@/store/flatStore';
 import useAuthStore from '@/store/useAuthStore';
 import useListingStore from '@/store/useListingStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
@@ -69,8 +68,8 @@ export const DetailView = () => {
     if (loading) return;
     const decodeGallery = () => {
       try {
-        const _gallery: Iroom[] = JSON.parse(listing!.gallery.toString());
-        setGallery(_gallery);
+        // const _gallery: Iroom[] = JSON.parse(listing!.gallery.toString());
+        setGallery(listing?.gallery || []);
       } catch (error) {
         logger('Listing Gallery load failed');
       }

@@ -5,7 +5,7 @@ import { formatDistanceToNow } from 'date-fns';
 import React from 'react';
 import { BsTrash } from 'react-icons/bs';
 
-import { MESSAGES_BUCKET, PROFILES_BUCKET, storage } from '@/lib/client';
+import { MESSAGES_BUCKET, PROFILES_BUCKET, storage } from '@/lib/client-old';
 import { isEmptyArray } from '@/lib/helper';
 
 import { deleteMessageById } from '@/database/message';
@@ -35,7 +35,7 @@ export default function MessageItem({ index, chatUser, message }: IProps) {
 
   const chatUserAvatar = storage.getFilePreview(
     PROFILES_BUCKET,
-    chatUser?.profile_img ?? ''
+    chatUser?.profilePicture ?? ''
   );
 
   const { openSnackbar } = useSnackbarStore();
@@ -73,7 +73,7 @@ export default function MessageItem({ index, chatUser, message }: IProps) {
         {!isSenderMe && (
           <div className='mt-auto'>
             <div className='bg-primary-light relative inline-flex h-8 w-8 items-center justify-center rounded-full'>
-              {chatUser?.profile_img ? (
+              {chatUser?.profilePicture ? (
                 <img
                   src={chatUserAvatar.href}
                   alt='Avatar'

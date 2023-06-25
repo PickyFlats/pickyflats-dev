@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { IoTimeSharp } from 'react-icons/io5';
 import { TbMessageCircle2Filled } from 'react-icons/tb';
 
-import { functions } from '@/lib/client';
+import { functions } from '@/lib/client-old';
 import { timeAgo } from '@/lib/date';
 
 import { createConversation } from '@/database/conversation';

@@ -4,10 +4,9 @@ import React, { useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
 import { FaTimes } from 'react-icons/fa';
 
-import { client, DATABASE_ID, LISTENERS_ID } from '@/lib/client';
 import { isEmptyArray } from '@/lib/helper';
 
-import { fetchConversationsForUser } from '@/database/conversation';
+import { fetchConversations } from '@/database/conversation';
 
 import ConversationItem from '@/components/chat/ConversationItem';
 import Loader from '@/components/Loader';
@@ -30,7 +29,7 @@ export default function ChatSidebar() {
   React.useEffect(() => {
     const loadConversations = async () => {
       try {
-        const _conversations = await fetchConversationsForUser(user?.$id);
+        const _conversations = await fetchConversations();
         setConversations(_conversations);
         !firstLoad && setFirstLoad(true);
       } catch (error) {
@@ -41,21 +40,21 @@ export default function ChatSidebar() {
     };
     loadConversations();
 
-    // listen for push updates
-    const unsubscribe = client.subscribe(
-      `databases.${DATABASE_ID}.collections.${LISTENERS_ID}.documents.${user?.listenerID}`,
-      (update) => {
-        const payload: any = update.payload;
-        if (payload.updateType === 'Message') loadConversations();
+    //!TODO: listen for push updates
+    // const unsubscribe = client.subscribe(
+    //   `databases.${DATABASE_ID}.collections.${LISTENERS_ID}.documents.${user?.listenerID}`,
+    //   (update) => {
+    //     const payload: any = update.payload;
+    //     if (payload.updateType === 'Message') loadConversations();
 
-        //! FUTUREUPDATE - push notification
-        // if (payload.updateType === 'Notification') {
-        //   logger('refresh notification.. ');
-        // }
-      }
-    );
+    //     //! FUTUREUPDATE - push notification
+    //     // if (payload.updateType === 'Notification') {
+    //     //   logger('refresh notification.. ');
+    //     // }
+    //   }
+    // );
 
-    return () => unsubscribe();
+    // return () => unsubscribe();
   }, []);
 
   React.useEffect(() => {

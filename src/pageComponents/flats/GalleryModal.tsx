@@ -5,7 +5,7 @@ import Tabs from '@mui/material/Tabs';
 import { useState } from 'react';
 import { CgClose } from 'react-icons/cg';
 
-import { CONTENT_BUCKET, storage } from '@/lib/client';
+import { withCDNURL } from '@/lib/url';
 
 import { Bathrooms } from '@/pageComponents/flats/Bathrooms';
 import { Kitchen } from '@/pageComponents/flats/Kitchen';
@@ -21,7 +21,6 @@ export const GalleryModal = (props: Iprop) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('one');
 
-  const file = storage.getFilePreview(CONTENT_BUCKET, src);
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -32,7 +31,7 @@ export const GalleryModal = (props: Iprop) => {
         onClick={() => setOpen(true)}
       >
         <img
-          src={file.href}
+          src={withCDNURL(`/files/${src}`)}
           className=' brightness-10 h-full w-full object-cover filter '
           alt='cover'
         />
