@@ -49,7 +49,8 @@ export default function withAuth<T extends WithAuthProps = WithAuthProps>(
   Component: React.ComponentType<T>,
   routeRole: keyof typeof RouteRole
 ) {
-  const ComponentWithAuth = (props: Omit<T, keyof WithAuthProps>) => {
+  // const ComponentWithAuth = (props: Omit<T, keyof WithAuthProps>) => {
+  const ComponentWithAuth: React.FC<Omit<T, keyof WithAuthProps>> = (props) => {
     const router = useRouter();
     const { query } = router;
 
