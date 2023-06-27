@@ -18,11 +18,11 @@ import useSnackbarStore from '@/store/useSnackbarStore';
 import MessageAttachment from '@/features/chat/MessageAttachment';
 
 import { Message } from '@/types/message';
-import { UserProfile } from '@/types/user';
+import { User } from '@/types/user';
 
 interface IProps {
   index: number;
-  chatUser?: UserProfile;
+  chatUser?: User;
   message: Message;
 }
 
@@ -81,7 +81,7 @@ export default function MessageItem({ index, chatUser, message }: IProps) {
                 />
               ) : (
                 <span className='text-md font-bold uppercase text-white'>
-                  {chatUser?.name.substring(0, 2).toUpperCase()}
+                  {chatUser?.firstName.substring(0, 2).toUpperCase()}
                 </span>
               )}
             </div>
@@ -127,7 +127,9 @@ export default function MessageItem({ index, chatUser, message }: IProps) {
           isSenderMe ? 'ml-auto' : ''
         )}
       >
-        <span className='mr-2'>{isSenderMe ? 'You' : messageUser?.name}</span>
+        <span className='mr-2'>
+          {isSenderMe ? 'You' : messageUser?.firstName}
+        </span>
         <span title={`${message.$createdAt}`}>
           {formatDistanceToNow(new Date(message.$createdAt), {
             addSuffix: true,

@@ -8,7 +8,7 @@ import MessageItem from '@/components/chat/MessageItem';
 import useChatStore from '@/store/useChatStore';
 import useLightBoxStore from '@/store/useLightBoxStore';
 
-import { UserProfile } from '@/types/user';
+import { User } from '@/types/user';
 
 export default function ChatMessages({
   conversationId,
@@ -16,7 +16,7 @@ export default function ChatMessages({
   cbOnNewMessage,
 }: {
   conversationId;
-  chatUser?: UserProfile;
+  chatUser?: User;
   cbOnNewMessage?: () => void;
 }) {
   const { messages, onNewMessage } = useChatStore();
@@ -53,6 +53,8 @@ export default function ChatMessages({
       });
     setImages(_attachments);
   }, [messages]);
+
+  // chatIO
 
   return (
     <>

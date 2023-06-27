@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { BiImage } from 'react-icons/bi';
 
 import api from '@/lib/api';
+import { useChatIO } from '@/hooks/useChat';
 
 import { sendMessage } from '@/database/message';
 
@@ -20,6 +21,7 @@ export default function ChatInputMessage({
   conversationID,
   receiverID,
 }: IProps) {
+  const { sendMessageIO } = useChatIO();
   const { user } = useAuthStore();
   const { onNewMessageConversation } = useChatStore();
   const { openSnackbar } = useSnackbarStore();
@@ -54,6 +56,8 @@ export default function ChatInputMessage({
       message: inputText,
       attachments,
     });
+
+    await sendMessageIO?.(newMessage);
 
     onNewMessageConversation(conversationID, newMessage);
 

@@ -17,6 +17,7 @@ import useChatStore from '@/store/useChatStore';
 import useLightBoxStore from '@/store/useLightBoxStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
 
+import { ChatIOProvider } from '@/contexts/ChatIOContext';
 import ChatActiveHeader from '@/features/chat/ChatActiveHeader';
 import ChatMessages from '@/features/chat/ChatMessages';
 import ChatSidebar from '@/features/chat/ChatSidebar';
@@ -99,7 +100,7 @@ export default function UserMessagePage() {
 
   const isLargeScreen = useResponsive('up', 'lg');
   return (
-    <>
+    <ChatIOProvider>
       <div className='flex h-[calc(100vh-70px)] max-md:h-[calc(100vh-50px)]'>
         {isLargeScreen && <ChatSidebar />}
         <div className='relative flex w-full flex-col'>
@@ -134,7 +135,7 @@ export default function UserMessagePage() {
         isOpen={isLightBoxOpen}
         onCloseRequest={() => setLightBoxOpen(false)}
       />
-    </>
+    </ChatIOProvider>
   );
 }
 
