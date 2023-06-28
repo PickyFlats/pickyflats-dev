@@ -1,6 +1,6 @@
 import { Comment } from '@/types/comment';
 import { Listing } from '@/types/listing';
-import { UserProfile } from '@/types/user';
+import { User } from '@/types/user';
 
 export interface Notification {
   type: 'like' | 'tour_requested' | 'tour_accepted' | 'commented';
@@ -16,5 +16,5 @@ export interface Notification {
   $databaseId: string;
   listing: Listing;
   comment?: Comment;
-  profile?: UserProfile;
+  profile?: User;
 }

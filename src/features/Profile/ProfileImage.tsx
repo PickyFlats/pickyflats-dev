@@ -58,7 +58,7 @@ export default function ProfileImage() {
             />
           ) : (
             <span className='text-xl font-bold uppercase text-white'>
-              {user?.name.substring(0, 2).toUpperCase()}
+              {`${user?.firstName[0].toUpperCase()}${user?.lastName[0].toUpperCase()}`}
             </span>
           )}
           <input

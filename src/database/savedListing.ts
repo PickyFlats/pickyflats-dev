@@ -7,14 +7,10 @@ import {
   LISTINGS_ID,
 } from '@/lib/client-old';
 
-import { Listing } from '@/types/listing';
-
 export const getSavedListingsByUserId = async (userID) => {
-  const _listings = await databases.listDocuments<Listing>(
-    DATABASE_ID,
-    LISTINGS_ID,
-    [Query.search('saved_by', userID)]
-  );
+  const _listings = await databases.listDocuments(DATABASE_ID, LISTINGS_ID, [
+    Query.search('saved_by', userID),
+  ]);
 
   if (_listings.total < 1) return [];
 
@@ -35,5 +31,5 @@ export const getSavedListingsByUserId = async (userID) => {
     return { ...listing, costs: listingCosts };
   });
 
-  return listingsWithCosts as Listing[];
+  return listingsWithCosts as any[];
 };

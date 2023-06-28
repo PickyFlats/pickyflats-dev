@@ -24,7 +24,7 @@ export type Listing = {
   liked_by: string[];
   saved_by: string[];
   sellerContact: any;
-  // $createdAt: string;
+  $createdAt: string;
   // $updatedAt: string;
   costs?: Costs;
 };
