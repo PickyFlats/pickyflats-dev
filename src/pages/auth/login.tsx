@@ -243,7 +243,7 @@ export default function LoginPage() {
                     )}
                     onClick={() => setSignInMethod('passwordLess')}
                   >
-                    Passwordless Sign In
+                    No Password Sign In
                   </MUIButton>
                 )}
 

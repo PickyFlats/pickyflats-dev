@@ -26,7 +26,7 @@ api.interceptors.response.use(
       window.location.pathname !== '/account/login' &&
       error.response?.status === 401
     ) {
-      window.location.href = '/account/logout';
+      // window.location.href = '/account/logout';
     }
 
     return Promise.reject(errRes?.error || errRes || 'Server Failure!');
