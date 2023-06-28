@@ -54,7 +54,12 @@ export default function VerificationRequestModal() {
               control={control}
               rules={{ required: 'Account Type is required' }}
               render={({ field }) => (
-                <Select value={field.value} onChange={field.onChange}>
+                <Select
+                  value={field.value}
+                  onChange={(e) => {
+                    field.onChange(e.target.value);
+                  }}
+                >
                   <MenuItem value='landlord'>Landlord</MenuItem>
                   <MenuItem value='agency'>Agency</MenuItem>
                 </Select>
@@ -72,7 +77,12 @@ export default function VerificationRequestModal() {
               control={control}
               rules={{ required: 'Document Type is required' }}
               render={({ field }) => (
-                <Select value={field.value} onChange={field.onChange}>
+                <Select
+                  value={field.value}
+                  onChange={(e) => {
+                    field.onChange(e.target.value);
+                  }}
+                >
                   <MenuItem value='id'>ID</MenuItem>
                   <MenuItem value='passport'>Passport</MenuItem>
                   <MenuItem value='license'>Real Estate License</MenuItem>
@@ -93,7 +103,7 @@ export default function VerificationRequestModal() {
               render={({ field }) => (
                 <input
                   type='file'
-                  onChange={(e) => field.onChange(e.target.files)}
+                  onChange={(e) => field.onChange(e.target.files!)}
                   multiple
                 />
               )}

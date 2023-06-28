@@ -1,9 +1,6 @@
-// import { PassageElement } from '@passageidentity/passage-auth/*';
-import { PassageElement } from '@passageidentity/passage-elements';
-
 declare namespace JSX {
+  import { PassageElement } from '@passageidentity/passage-elements';
   interface IntrinsicElements {
     'passage-auth': PassageElement;
-    [key: string]: any;
   }
 }

@@ -158,7 +158,7 @@ function PaymentScreen({ total, listingID, reservationID }) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name: user?.name,
+        name: `${user?.firstName}${user?.lastName}`,
         email: user?.email,
         total,
         listingID,

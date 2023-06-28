@@ -5,8 +5,6 @@ import { DATABASE_ID, databases, LISTINGCOSTS_ID } from '@/lib/client-old';
 
 import { LISTINGS_ID } from '../lib/client-old';
 
-import { Listing } from '@/types/listing';
-
 export const fetchMyListings = async () => {
   const listingsRes = await api.get('/listings/me');
   return listingsRes.data;
@@ -59,7 +57,7 @@ export const fetchListings = async (props?: ListingFetchProps) => {
     return { ...listing, costs: listingCosts };
   });
 
-  return listingsWithCosts as Listing[];
+  return listingsWithCosts as any[];
 };
 
 export const fetchListingsByUserId = async (userID) => {
@@ -89,7 +87,7 @@ export const fetchListingsByUserId = async (userID) => {
     return { ...listing, costs: listingCosts };
   });
 
-  return listingsWithCosts as Listing[];
+  return listingsWithCosts as any[];
 };
 
 export const createListing = async (data) => {

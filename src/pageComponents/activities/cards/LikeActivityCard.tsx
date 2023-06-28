@@ -42,7 +42,7 @@ export const LikeActivityCard = ({
             </div>
             <div className=''>
               <h2 className='text-sm font-semibold'>
-                {notification.profile?.name}
+                {notification.profile?.firstName}
                 <strong className='text-secondary-main ml-1'>Liked</strong> Your
                 Flat
               </h2>

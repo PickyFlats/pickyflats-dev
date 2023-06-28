@@ -51,11 +51,13 @@ export default function TourRequestCard({ data }: { data: TourRequest }) {
     );
   };
 
+  const user = data.user;
+
   return (
     <div className='flex min-h-[200px] flex-col rounded-md bg-slate-100 p-5 text-center shadow-md max-sm:w-full'>
       <div className='flex-grow'>
         <h2 className=' text-xl font-semibold'>
-          {data.user.name} Has Requested For Tour
+          {`${user?.firstName}${user?.lastName}`} Has Requested For Tour
         </h2>
         <p className=' mt-3 text-sm text-[#6f7174]'>{data.note}</p>
         <p className=' mt-3 text-sm text-[#6f7174]'>
