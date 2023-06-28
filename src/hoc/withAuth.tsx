@@ -65,21 +65,24 @@ export default function withAuth<T extends WithAuthProps = WithAuthProps>(
 
     const checkAuth = React.useCallback(() => {
       // const token = getFromLocalStorage('token');
+
       const token = Cookies.get('token');
       if (!token || !isValidToken(token)) {
         isAuthenticated && logout();
         stopLoading();
         return;
       }
+
       setSession(token);
 
       const loadUser = async () => {
         try {
           const userRes = await api.get('/users/me');
+          const userData = userRes.data;
           // const { role, profile_img, listenerID } = userProfile;
 
           // login({ ...userRes.data, ...{ role, profile_img, listenerID } } as any);
-          login({ ...userRes.data } as any);
+          login({ ...userData } as any);
         } catch (err) {
           Cookies.remove('token');
         } finally {
