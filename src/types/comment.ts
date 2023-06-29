@@ -1,7 +1,7 @@
 export interface Comment {
   listingID: string;
   userID: string;
-  comment: string;
+  text: string;
   $id: string;
   $createdAt: string;
   $updatedAt: string;
@@ -9,7 +9,8 @@ export interface Comment {
   $collectionId: string;
   $databaseId: string;
   user?: {
-    name: string;
-    profile_img: any;
+    firstName: string;
+    lastName: string;
+    profilePicture: any;
   };
 }

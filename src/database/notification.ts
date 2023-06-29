@@ -54,7 +54,7 @@ export const getNotificationByUserID = async (userID) => {
   // fetch comments with users notifications
   if (_commentIDs.length > 0) {
     const _comments = await getCommentsByIDs(_commentIDs);
-    const commentNotifications = _comments.map((comment) => {
+    const commentNotifications = _comments.map((comment: any) => {
       const notification = notificationsWithlistings.find(
         (n: any) => n.commentId === comment.$id
       );

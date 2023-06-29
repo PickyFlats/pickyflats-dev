@@ -14,6 +14,7 @@ export const CommentActivityCard = ({
     (i) => i.id === notification.listing?.flatTypes[0]
   );
 
+  const user = notification?.comment?.user;
   return (
     <div>
       <div className=''>
@@ -41,11 +42,9 @@ export const CommentActivityCard = ({
               </IconButton>
             </div>
             <div className=''>
-              <h2 className='text-sm font-semibold'>
-                {notification.comment?.user?.name}
-              </h2>
+              <h2 className='text-sm font-semibold'>{`${user?.firstName} ${user?.lastName}`}</h2>
               <p className='text-xs text-gray-500'>
-                {notification.comment?.comment}
+                {notification.comment?.text}
               </p>
 
               <div className='flex items-center'>

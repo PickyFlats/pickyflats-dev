@@ -85,13 +85,14 @@ export default function FlatSidebar({ listing }: { listing }) {
           </div>
         </div>
         <div className='space-y-4'>
-          <Button
+          {/* //!FUTURE: flat reservation */}
+          {/* <Button
             variant='contained'
             className='bg-secondary-main !text-whtie relative top-1 h-[30px] w-full'
             onClick={handleReserveClick}
           >
             Reserve
-          </Button>
+          </Button> */}
           <Button
             variant='contained'
             onClick={handleOpenTourModal}
