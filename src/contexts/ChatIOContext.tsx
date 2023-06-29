@@ -21,37 +21,37 @@ const ChatIOContext = createContext<ChatIOContextProps>(initialState);
 
 function ChatIOProvider({ children }: { children: ReactNode }) {
   const { user } = useAuthStore();
-  const { onNewMessage } = useChatStore();
+  const { onNewMessage, onNewMessageConversation } = useChatStore();
   //socket
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [connectionId, setConnectionId] = useState<string | null>(null);
   const [ioConnectionId, setIOConnectionId] = useState<string | null>(null);
 
+  const handleOnNewMessage = (data) => {
+    let message: any = new TextDecoder().decode(data);
+    message = JSON.parse(message);
+    onNewMessageConversation(message?.conversationID, message);
+    onNewMessage(message);
+  };
+
   useEffect(() => {
     if (isConnected) {
       socket.emit('user:subscribe');
-
-      // TODO: continue
-      socket.on('message:new', async (data) => {
-        let message = new TextDecoder().decode(data);
-        message = JSON.parse(message);
-        onNewMessage(message);
-      });
-
+      socket.on('message:new', handleOnNewMessage);
       // listen for msg sent successfully
-      socket.on('message:sent', async (data) => {
-        let message = new TextDecoder().decode(data);
-        message = JSON.parse(message);
-        onNewMessage(message);
-      });
+      socket.on('message:sent', handleOnNewMessage);
+      // cleanup
+      return () => {
+        socket.off('user:subscribe');
+        socket.off('message:new');
+        socket.off('message:sent');
+      };
     }
   }, [isConnected]);
 
   const sendMessageIO = async (message) => {
-    const encodedMessage = new TextEncoder().encode(JSON.stringify(message));
-    //
     if (socket) {
-      // TODO: send message usign socket for real time messaging
+      const encodedMessage = new TextEncoder().encode(JSON.stringify(message));
       socket.emit('message', encodedMessage);
     }
   };

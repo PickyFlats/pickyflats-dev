@@ -7,7 +7,6 @@ import api from '@/lib/api';
 import { useChatIO } from '@/hooks/useChat';
 
 import useAuthStore from '@/store/useAuthStore';
-import useChatStore from '@/store/useChatStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
 
 interface IProps {
@@ -21,7 +20,6 @@ export default function ChatInputMessage({
 }: IProps) {
   const { sendMessageIO } = useChatIO();
   const { user } = useAuthStore();
-  const { onNewMessageConversation } = useChatStore();
   const { openSnackbar } = useSnackbarStore();
 
   const [loading, setLoading] = useState(false);
@@ -50,21 +48,7 @@ export default function ChatInputMessage({
     }
 
     const newMessage = { conversationID, message: inputText, attachments };
-
     await sendMessageIO?.(newMessage);
-
-    // onNewMessageConversation(conversationID, newMessage);
-
-    // update timestamp in conversation id for conversation listeners
-    // await databases.updateDocument(
-    //   DATABASE_ID,
-    //   CONVERSATIONS_ID,
-    //   conversationID,
-    //   {
-    //     lastMessageID: newMessage.$id,
-    //     lastUpdated: new Date(),
-    //   }
-    // );
 
     // push for listeners update
     // await pushListenerUpdate(receiverID, 'Message');
