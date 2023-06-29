@@ -13,11 +13,11 @@ import { User } from '@/types/user';
 export default function ChatMessages({
   conversationId,
   chatUser,
-  cbOnNewMessage,
+  cbScrollToLatest,
 }: {
   conversationId;
   chatUser?: User;
-  cbOnNewMessage?: () => void;
+  cbScrollToLatest?: () => void;
 }) {
   const { messages, onNewMessage } = useChatStore();
   const { setImages } = useLightBoxStore();
@@ -38,7 +38,7 @@ export default function ChatMessages({
     //   }
     // );
     // return () => unsubscribe();
-  }, [cbOnNewMessage, conversationId, onNewMessage]);
+  }, [conversationId, onNewMessage]);
 
   React.useEffect(() => {
     const _attachments: string[] = [];
@@ -52,6 +52,8 @@ export default function ChatMessages({
         _attachments.push(...__attachments);
       });
     setImages(_attachments);
+    // scroll to top
+    cbScrollToLatest?.();
   }, [messages]);
 
   // chatIO

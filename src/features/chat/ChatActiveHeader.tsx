@@ -45,7 +45,9 @@ export default function ChatActiveHeader({ user }: { user? }) {
           />
         ) : (
           <span className='text-md font-bold uppercase text-white'>
-            {`${user?.firstName?.[0].toUpperCase()}${user?.lastName?.[0].toUpperCase()}`}
+            {`${user?.firstName?.[0].toUpperCase()}${(
+              user?.lastName?.[0] || ''
+            ).toUpperCase()}`}
           </span>
         )}
         <span

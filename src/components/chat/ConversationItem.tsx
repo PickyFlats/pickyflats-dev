@@ -48,7 +48,7 @@ export default function ConversationItem({ item }: { item?: Conversation }) {
       </div>
       <div className='ml-4'>
         <p className='font-bold'>{fullName}</p>
-        <p className='text-gray-600'>
+        <p className='line-clamp-1 text-gray-600'>
           {user?.$id === item?.lastMessage?.senderID ? 'You: ' : ''}
           {item?.lastMessage?.message}
         </p>

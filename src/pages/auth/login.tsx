@@ -56,7 +56,6 @@ export default function LoginPage() {
     try {
       setLoginError('');
       setIsLoading(true);
-
       const loginRes = await api.post('/auth/login', data);
       const { accessToken } = loginRes.data;
       if (accessToken) {
