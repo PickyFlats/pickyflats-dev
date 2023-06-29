@@ -6,8 +6,6 @@ import { BiImage } from 'react-icons/bi';
 import api from '@/lib/api';
 import { useChatIO } from '@/hooks/useChat';
 
-import { sendMessage } from '@/database/message';
-
 import useAuthStore from '@/store/useAuthStore';
 import useChatStore from '@/store/useChatStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
@@ -51,15 +49,11 @@ export default function ChatInputMessage({
       attachments.push(uploadRes.data);
     }
 
-    const newMessage = await sendMessage({
-      conversationID,
-      message: inputText,
-      attachments,
-    });
+    const newMessage = { conversationID, message: inputText, attachments };
 
     await sendMessageIO?.(newMessage);
 
-    onNewMessageConversation(conversationID, newMessage);
+    // onNewMessageConversation(conversationID, newMessage);
 
     // update timestamp in conversation id for conversation listeners
     // await databases.updateDocument(

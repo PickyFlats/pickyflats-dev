@@ -91,7 +91,7 @@ export default function UserMessagePage() {
 
   const messagesContainer = useRef<HTMLDivElement>(null);
 
-  const handleOnNewMessage = () => {
+  const handleScrollOnUpdate = () => {
     if (messagesContainer.current) {
       messagesContainer.current.scrollTop =
         messagesContainer.current.scrollHeight;
@@ -114,7 +114,7 @@ export default function UserMessagePage() {
               <ChatMessages
                 conversationId={conversationId}
                 chatUser={chatUser}
-                cbOnNewMessage={handleOnNewMessage}
+                cbScrollToLatest={handleScrollOnUpdate}
               />
             )}
           </div>

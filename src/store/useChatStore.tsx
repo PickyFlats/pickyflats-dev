@@ -50,7 +50,7 @@ const useChatStoreBase = create<ChatStore>((set) => ({
   onNewMessage: (message) => {
     set(
       produce<ChatStore>((state) => {
-        const messageId = message.id;
+        const messageId = message.$id;
         state.messages.byId[messageId] = message;
         state.messages.allIds.push(messageId);
       })
