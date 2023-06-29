@@ -2,6 +2,7 @@ import { AppwriteException } from 'appwrite';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef } from 'react';
 
+import { useChatIO } from '@/hooks/useChat';
 import useResponsive from '@/hooks/useResponsive';
 
 import { getConversationByID } from '@/database/conversation';
@@ -33,7 +34,6 @@ export default function UserMessagePage() {
   const { user } = useAuthStore();
   const { openSnackbar } = useSnackbarStore();
 
-  const [chatUser, setChatUser] = React.useState<any>();
   const [loading, setLoading] = React.useState(true);
   const [messageLoading, setMessageLoading] = React.useState(true);
 
@@ -46,6 +46,8 @@ export default function UserMessagePage() {
     isOpen: isLightBoxOpen,
     setIsOpen: setLightBoxOpen,
   } = useLightBoxStore();
+
+  const { setActiveConversation, chatUser, setChatUser } = useChatIO();
 
   const fetchConversation = async () => {
     const _conversation = await getConversationByID(conversationId!.toString());
@@ -64,16 +66,17 @@ export default function UserMessagePage() {
 
     // fetch chat user
     const _chatUser = await getUserProfileForChat(_chatUserId);
-
-    setChatUser(_chatUser);
+    setChatUser?.(_chatUser);
     setLoading(false);
 
     // load messages only after fetching chat user
     const _messages = await getMessagesByConversation(conversationId);
     setMessages(_messages);
+    setActiveConversation?.(_conversation);
   };
 
   useEffect(() => {
+    if (!conversationId) return;
     const loadConversation = async () => {
       try {
         setMessageLoading(true);
@@ -100,7 +103,7 @@ export default function UserMessagePage() {
 
   const isLargeScreen = useResponsive('up', 'lg');
   return (
-    <ChatIOProvider>
+    <>
       <div className='flex h-[calc(100vh-70px)] max-md:h-[calc(100vh-50px)]'>
         {isLargeScreen && <ChatSidebar />}
         <div className='relative flex w-full flex-col'>
@@ -135,12 +138,16 @@ export default function UserMessagePage() {
         isOpen={isLightBoxOpen}
         onCloseRequest={() => setLightBoxOpen(false)}
       />
-    </ChatIOProvider>
+    </>
   );
 }
 
 function LayoutWrapper(props: WithAuthProps) {
-  return <DashboardLayout>{props.page}</DashboardLayout>;
+  return (
+    <DashboardLayout>
+      <ChatIOProvider>{props.page}</ChatIOProvider>
+    </DashboardLayout>
+  );
 }
 
 const PageWrapper: React.FC<{ page: React.ReactElement }> = withAuth(

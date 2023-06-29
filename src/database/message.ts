@@ -9,8 +9,7 @@ export const sendMessage = async (data) => {
 };
 
 export const deleteMessageById = async (id) => {
-  // todo delete attachments also if exits
-  await databases.deleteDocument(DATABASE_ID, MESSAGES_ID, id);
+  await api.delete(`/chat/message/${id}`);
 };
 
 export const getMessageById = async (messageID) => {

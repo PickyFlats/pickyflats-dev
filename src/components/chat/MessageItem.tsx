@@ -5,8 +5,11 @@ import { formatDistanceToNow } from 'date-fns';
 import React from 'react';
 import { BsTrash } from 'react-icons/bs';
 
-import { MESSAGES_BUCKET, PROFILES_BUCKET, storage } from '@/lib/client-old';
+import api from '@/lib/api';
+import { MESSAGES_BUCKET, storage } from '@/lib/client-old';
 import { isEmptyArray } from '@/lib/helper';
+import { withCDNURL } from '@/lib/url';
+import { useChatIO } from '@/hooks/useChat';
 
 import { deleteMessageById } from '@/database/message';
 
@@ -28,25 +31,22 @@ interface IProps {
 
 export default function MessageItem({ index, chatUser, message }: IProps) {
   const { user } = useAuthStore();
+  const { onDeleteMessagIO } = useChatIO();
   const { onDeleteMessage } = useChatStore();
   const { images, setIsOpen, setPhotoIndex } = useLightBoxStore();
   const messageUser = message.senderID === user?.$id ? user : chatUser;
   const isSenderMe = message.senderID === user?.$id;
 
-  const chatUserAvatar = storage.getFilePreview(
-    PROFILES_BUCKET,
-    chatUser?.profilePicture ?? ''
-  );
-
   const { openSnackbar } = useSnackbarStore();
 
   const handleDeleteMessage = async (id) => {
     try {
-      await deleteMessageById(id);
       for await (const attachment of message.attachments) {
-        await storage.deleteFile(MESSAGES_BUCKET, attachment);
+        await api.delete(`/files/${attachment}`);
       }
+      await deleteMessageById(id);
       onDeleteMessage(id);
+      onDeleteMessagIO?.(id);
     } catch (error) {
       openSnackbar('Message failed to delete', 'error');
     }
@@ -75,7 +75,7 @@ export default function MessageItem({ index, chatUser, message }: IProps) {
             <div className='bg-primary-light relative inline-flex h-8 w-8 items-center justify-center rounded-full'>
               {chatUser?.profilePicture ? (
                 <img
-                  src={chatUserAvatar.href}
+                  src={withCDNURL(`/files/${chatUser?.profilePicture}`)}
                   alt='Avatar'
                   className='inline-flex h-7 w-7 items-center justify-center rounded-full'
                 />

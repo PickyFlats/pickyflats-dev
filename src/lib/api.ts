@@ -1,12 +1,12 @@
 import axios, { AxiosError } from 'axios';
 import Cookies from 'js-cookie';
 
-export const SERVER =
+export const API_SERVER =
   process.env.NODE_ENV === 'development'
     ? process.env.NEXT_PUBLIC_DEV_API_SERVER
     : process.env.NEXT_PUBLIC_API_SERVER;
 
-const api = axios.create({ baseURL: SERVER });
+const api = axios.create({ baseURL: API_SERVER });
 
 api.interceptors.request.use(function (config) {
   const token = Cookies.get('token');

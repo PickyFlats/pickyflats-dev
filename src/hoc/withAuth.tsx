@@ -3,12 +3,13 @@ import Cookies from 'js-cookie';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import * as React from 'react';
-import { ImSpinner8 } from 'react-icons/im';
 
 import api from '@/lib/api';
 import { isValidToken, setSession } from '@/lib/jwt';
 
 import { updateCurrentUser } from '@/database/user';
+
+import Loader from '@/components/Loader';
 
 import useAuthStore from '@/store/useAuthStore';
 
@@ -155,7 +156,7 @@ export default function withAuth<T extends WithAuthProps = WithAuthProps>(
           <div className='relative mx-auto mb-2 h-[40px] w-[200px] object-scale-down'>
             <Image src='/logo.svg' alt='logo' fill />
           </div>
-          <ImSpinner8 className='my-4 animate-spin text-4xl' />
+          <Loader loaderClassName='w-6 h-6' />
         </div>
       );
     }
