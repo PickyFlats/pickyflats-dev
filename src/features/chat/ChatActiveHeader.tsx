@@ -4,15 +4,10 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { MdOutlineArrowBack } from 'react-icons/md';
 
-import { PROFILES_BUCKET, storage } from '@/lib/client-old';
+import { withCDNURL } from '@/lib/url';
 import useResponsive from '@/hooks/useResponsive';
 
 export default function ChatActiveHeader({ user }: { user? }) {
-  const chatUserAvatar = storage.getFilePreview(
-    PROFILES_BUCKET,
-    user?.profilePicture
-  );
-
   // last activity
   const lastActivityDate = user?.lastActivity
     ? new Date(user.lastActivity)
@@ -39,7 +34,7 @@ export default function ChatActiveHeader({ user }: { user? }) {
       <div className='bg-primary-light relative inline-flex h-10 w-10 items-center justify-center rounded-full'>
         {user?.profilePicture ? (
           <img
-            src={chatUserAvatar.href}
+            src={withCDNURL(`/files/${user?.profilePicture}`)}
             alt='Avatar'
             className='inline-flex h-10 w-10 items-center justify-center rounded-full'
           />

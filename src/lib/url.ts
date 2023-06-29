@@ -1,3 +1,4 @@
+import { API_SERVER } from '@/lib/api';
 import { APP_URL } from '@/lib/client-old';
 
 export default function withAppURL(path: string) {
@@ -5,5 +6,5 @@ export default function withAppURL(path: string) {
 }
 
 export function withCDNURL(path: string) {
-  return process.env.NEXT_PUBLIC_API_SERVER + path;
+  return API_SERVER + path;
 }

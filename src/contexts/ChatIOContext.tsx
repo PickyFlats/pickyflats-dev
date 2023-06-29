@@ -6,25 +6,34 @@ import useAuthStore from '@/store/useAuthStore';
 import useChatStore from '@/store/useChatStore';
 
 interface ChatIOContextProps {
-  connectionId: string | null;
+  conversation: any | null;
   participants: any[];
   onChangeChatUser?: (user: any) => void;
   sendMessageIO?: (message) => Promise<void>;
+  onDeleteMessagIO?: (data: any) => void;
+  setActiveConversation?: (id) => void;
+  chatUser: any | null;
+  setChatUser?: (user) => void;
 }
 
 const initialState: ChatIOContextProps = {
-  connectionId: null,
+  conversation: null,
   participants: [],
+  chatUser: null,
 };
 
 const ChatIOContext = createContext<ChatIOContextProps>(initialState);
 
 function ChatIOProvider({ children }: { children: ReactNode }) {
   const { user } = useAuthStore();
-  const { onNewMessage, onNewMessageConversation } = useChatStore();
+  const { onNewMessage, onNewMessageConversation, onDeleteMessage } =
+    useChatStore();
+
+  const [chatUser, setChatUser] = useState<any>();
+
   //socket
   const [isConnected, setIsConnected] = useState(socket.connected);
-  const [connectionId, setConnectionId] = useState<string | null>(null);
+  const [conversation, setConversation] = useState<any | null>(null);
   const [ioConnectionId, setIOConnectionId] = useState<string | null>(null);
 
   const handleOnNewMessage = (data) => {
@@ -34,20 +43,28 @@ function ChatIOProvider({ children }: { children: ReactNode }) {
     onNewMessage(message);
   };
 
+  const handleMessageDeleted = (data) => {
+    let message: any = new TextDecoder().decode(data);
+    message = JSON.parse(message);
+    onDeleteMessage(message['messageID']);
+  };
+
   useEffect(() => {
     if (isConnected) {
       socket.emit('user:subscribe');
       socket.on('message:new', handleOnNewMessage);
       // listen for msg sent successfully
       socket.on('message:sent', handleOnNewMessage);
+      socket.on('message:deleted', handleMessageDeleted);
       // cleanup
       return () => {
         socket.off('user:subscribe');
         socket.off('message:new');
         socket.off('message:sent');
+        socket.off('message:deleted');
       };
     }
-  }, [isConnected]);
+  }, [chatUser, isConnected]);
 
   const sendMessageIO = async (message) => {
     if (socket) {
@@ -56,10 +73,25 @@ function ChatIOProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const onDeleteMessagIO = (messageID) => {
+    const encodedData = new TextEncoder().encode(
+      JSON.stringify({
+        conversationID: conversation?.$id,
+        messageID,
+        to: chatUser?.$id,
+      })
+    );
+    socket.emit('message:delete', encodedData);
+  };
+
   const chatContextValue: ChatIOContextProps = {
-    connectionId,
+    conversation,
+    setActiveConversation: setConversation,
     participants: [],
     sendMessageIO,
+    onDeleteMessagIO,
+    chatUser,
+    setChatUser,
   };
   return (
     <ChatIOContext.Provider value={chatContextValue}>
