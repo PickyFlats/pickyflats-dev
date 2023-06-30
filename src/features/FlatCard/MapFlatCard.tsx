@@ -137,8 +137,9 @@ export const MapFlatCard = ({ data }: { data: Listing }) => {
         <div className='flex w-full p-2'>
           <h3 className='flex-grow text-base font-medium text-blue-900'>
             <Link href={`/flats/${data.$id}`}>
-              {flatType?.label} Flat for sale in {data?.flatCity},{' '}
-              {data?.flatCountry}
+              {flatType?.label} Flat{' '}
+              {data?.purpose === 'rent' ? 'on rent' : 'for sale'} in{' '}
+              {data?.flatCity}, {data?.flatCountry}
             </Link>
           </h3>
         </div>

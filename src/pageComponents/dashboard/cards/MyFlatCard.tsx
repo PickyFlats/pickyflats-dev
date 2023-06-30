@@ -116,7 +116,9 @@ export const MyFlatCard = (props: Iprop) => {
           </h3>
           <h3 className='line-clamp-1 p-1 text-lg font-bold text-blue-950'>
             <Link href={`/flats/${data?.$id}`}>
-              {flatType?.label} For Sale In {data?.flatCity}
+              {flatType?.label}{' '}
+              {data?.purpose === 'rent' ? 'on rent' : 'for sale'} In{' '}
+              {data?.flatCity}
             </Link>
           </h3>
           <h3 className='line-clamp-1 p-1 text-sm font-bold text-black'>

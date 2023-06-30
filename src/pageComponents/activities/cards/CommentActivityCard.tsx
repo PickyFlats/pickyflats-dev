@@ -22,8 +22,11 @@ export const CommentActivityCard = ({
           <div className='flex '>
             <div className='flex-grow'>
               <h3>
-                {flatType?.label} Flat for sale in{' '}
-                {notification.listing?.flatCity},{' '}
+                {flatType?.label} Flat{' '}
+                {notification.listing?.purpose === 'rent'
+                  ? 'on rent'
+                  : 'for sale'}{' '}
+                in {notification.listing?.flatCity},{' '}
                 {notification.listing?.flatCountry}
               </h3>
             </div>

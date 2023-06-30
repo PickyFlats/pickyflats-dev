@@ -19,45 +19,26 @@ interface ListingFetchProps {
 }
 //! TODO: fetch by recent & flat type
 export const fetchListings = async (props?: ListingFetchProps) => {
-  const _listings = await databases.listDocuments(DATABASE_ID, LISTINGS_ID, [
-    Query.equal('isListed', true),
-    // Query.equal('userID', [userID]),
-    // ...(props?.byFlatType
-    //   ? [Query.equal('flatTypes', props.byFlatType as any)]
-    //   : []),
-    //! Query issue with integer data
-    // Query.equal('flatTypes', 8), // ! try on production
-    // Query.equal('flatTypes', [8]), // ! try on production
-    // Query.equal('flatTypes', activeTypeFilter)
+  const { data: listings } = await api.get('/listings');
 
-    // TODO: !query on listingsCosts
-    // ...(props?.minPrice && props.maxPrice
-    //   ? [Query.between('monthlyCost', props.minPrice, props.maxPrice)]
-    //   : []),
+  // [
+  // Query.equal('userID', [userID]),
+  // ...(props?.byFlatType
+  //   ? [Query.equal('flatTypes', props.byFlatType as any)]
+  //   : []),
+  //! Query issue with integer data
+  // Query.equal('flatTypes', 8), // ! try on production
+  // Query.equal('flatTypes', [8]), // ! try on production
+  // Query.equal('flatTypes', activeTypeFilter)
+  // TODO: !query on listingsCosts
+  // ...(props?.minPrice && props.maxPrice
+  //   ? [Query.between('monthlyCost', props.minPrice, props.maxPrice)]
+  //   : []),
+  // ...(props?.bedrooms ? [Query.equal('room', props.bedrooms)] : []),
+  // ...(props?.bathrooms ? [Query.equal('bathrooms', props.bathrooms)] : []),
+  // ];
 
-    // ...(props?.bedrooms ? [Query.equal('room', props.bedrooms)] : []),
-    // ...(props?.bathrooms ? [Query.equal('bathrooms', props.bathrooms)] : []),
-  ]);
-
-  const listingsIds = [
-    ...new Set(_listings.documents.flatMap((res) => res.$id)),
-  ];
-
-  // fetch all listing costs
-  const _listingsCosts = await databases.listDocuments(
-    DATABASE_ID,
-    LISTINGCOSTS_ID,
-    [Query.equal('listingID', listingsIds)]
-  );
-
-  const listingsWithCosts = _listings.documents.map((listing) => {
-    const listingCosts = _listingsCosts.documents.find(
-      (item) => item.listingID === listing.$id
-    );
-    return { ...listing, costs: listingCosts };
-  });
-
-  return listingsWithCosts as any[];
+  return listings;
 };
 
 export const fetchListingsByUserId = async (userID) => {
