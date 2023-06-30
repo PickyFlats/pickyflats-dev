@@ -37,10 +37,11 @@ export default function FlatSidebar({ listing }: { listing }) {
       <div className='relative z-50 flex h-full w-full flex-col rounded-md bg-[#74f574] p-5'>
         <div className=' flex text-xl text-white'>
           <div className='flex-grow font-semibold'>
-            {listing?.costs?.currency} {listing?.costs?.monthlyCost}
+            {listing?.costs?.currency}{' '}
+            {listing?.costs?.monthlyCost || listing?.costs?.purchaseCost}
           </div>
-          <div className=' rounded-[20px] border-[2px] bg-black px-4 py-1 text-center text-sm'>
-            Rent
+          <div className='rounded-[20px] border-[2px] bg-black px-4 py-1 text-center text-sm capitalize'>
+            {listing?.purpose}
           </div>
         </div>
         <div className=' flex-grow'>
@@ -85,13 +86,14 @@ export default function FlatSidebar({ listing }: { listing }) {
           </div>
         </div>
         <div className='space-y-4'>
-          <Button
+          {/* //!FUTURE: flat reservation */}
+          {/* <Button
             variant='contained'
             className='bg-secondary-main !text-whtie relative top-1 h-[30px] w-full'
             onClick={handleReserveClick}
           >
             Reserve
-          </Button>
+          </Button> */}
           <Button
             variant='contained'
             onClick={handleOpenTourModal}

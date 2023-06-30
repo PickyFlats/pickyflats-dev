@@ -2,7 +2,6 @@ import { Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
 
 import { postComment } from '@/database/comment';
-import { createListingCommentNotification } from '@/database/notification';
 
 import useAuthStore from '@/store/useAuthStore';
 import useListingStore from '@/store/useListingStore';
@@ -39,13 +38,13 @@ const CommentBoxCard = ({
     setLoading(true);
     try {
       const newCommentID = await postComment({
-        listingID,
-        userID: user?.$id,
-        comment,
+        listingId: listingID,
+        text: comment,
       });
 
       // create comment notification
-      await createListingCommentNotification(listingID, sellerID, newCommentID);
+      // TODO: create comment notification
+      // await createListingCommentNotification(listingID, sellerID, newCommentID);
 
       setComment('');
       refresh();

@@ -90,7 +90,8 @@ export default function TourRequestCard({ data }: { data: TourRequest }) {
           <div>
             <span className='text-lg font-bold text-white'>
               {data?.listing?.costs?.currency}{' '}
-              {data?.listing?.costs?.monthlyCost}
+              {data?.listing?.costs?.monthlyCost ||
+                data?.listing?.costs?.purchaseCost}
             </span>
           </div>
         </div>

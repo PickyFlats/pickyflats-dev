@@ -82,13 +82,13 @@ export const Comment = ({
               <div className='flex-grow '>
                 <div className=''>
                   <h2 className=' text-lg font-medium leading-[150%] text-[#0F0C28]'>
-                    {item.user?.name}
+                    {`${item.user?.firstName} ${item.user?.lastName}`}
                   </h2>
                 </div>
                 {/* actual comment */}
                 <div className='mt-4'>
                   <p className='text-text-secondary-default  my-2 text-sm font-medium leading-[150%]'>
-                    {item?.comment}
+                    {item?.text}
                   </p>
                 </div>
                 {/* reply box */}

@@ -6,7 +6,6 @@ import { FaRegBookmark } from 'react-icons/fa';
 import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
 
 import { timeAgo } from '@/lib/date';
-import logger from '@/lib/logger';
 
 import { updateListingById } from '@/database/listing';
 import { createListingLikeNotification } from '@/database/notification';
@@ -43,15 +42,7 @@ export const FlatCardV1 = ({ data }: { data: Listing }) => {
   }, [user]);
 
   useEffect(() => {
-    const decodeGallery = () => {
-      try {
-        const _gallery: Iroom[] = JSON.parse(data!.gallery.toString());
-        setGallery(_gallery);
-      } catch (error) {
-        logger('Listing Gallery load failed');
-      }
-    };
-    decodeGallery();
+    setGallery(data.gallery || []);
   }, [data]);
 
   const handleLike = async () => {
@@ -109,6 +100,7 @@ export const FlatCardV1 = ({ data }: { data: Listing }) => {
     gallery?.length > 0 && gallery[0].photos.length > 0
       ? gallery[0].photos[0]
       : '';
+
   return (
     <>
       <div className='  z-30 flex h-[400px] min-w-[200px] cursor-pointer flex-col overflow-hidden rounded-md shadow-md hover:border'>
@@ -123,7 +115,8 @@ export const FlatCardV1 = ({ data }: { data: Listing }) => {
                   Buy
                   <span className=' text-primary-light font-normal'>
                     {' '}
-                    {data?.costs?.currency} {data?.costs?.monthlyCost}
+                    {data?.costs?.currency}{' '}
+                    {data?.costs?.monthlyCost || data?.costs?.purchaseCost}
                   </span>
                 </span>
               </div>
@@ -142,8 +135,9 @@ export const FlatCardV1 = ({ data }: { data: Listing }) => {
         <div className='flex w-full p-2'>
           <h3 className='flex-grow text-lg font-medium text-blue-900'>
             <Link href={`/flats/${data.$id}`}>
-              {flatType?.label} Flat for sale in {data?.flatCity},{' '}
-              {data?.flatCountry}
+              {flatType?.label} Flat{' '}
+              {data?.purpose === 'rent' ? 'on rent' : 'for sale'} in{' '}
+              {data?.flatCity}, {data?.flatCountry}
             </Link>
           </h3>
           <h4 className=' text-sm text-blue-600'>

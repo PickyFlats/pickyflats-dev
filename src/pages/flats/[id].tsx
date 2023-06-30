@@ -206,15 +206,17 @@ export const DetailView = () => {
             <div className='hidden min-w-[350px] max-w-[350px] md:block'></div>
             <div className=' flex-grow py-5'>
               <h1 className=' text-primary-main text-xl font-semibold md:text-3xl'>
-                {flatType?.label} Flat for sale in {listing?.flatCity},{' '}
-                {listing?.flatCountry}
+                {flatType?.label} Flat{' '}
+                {listing?.purpose === 'rent' ? 'on rent' : 'for sale'} in{' '}
+                {listing?.flatCity}, {listing?.flatCountry}
               </h1>
 
               <div className='flex flex-grow font-semibold md:hidden'>
                 <span className='flex-grow'>
                   {' '}
                   {/* //!FUTURE: priorite cost with available type */}
-                  {listing?.costs?.currency} {listing?.costs?.monthlyCost}
+                  {listing?.costs?.currency}{' '}
+                  {listing?.costs?.monthlyCost || listing?.costs?.purchaseCost}
                 </span>{' '}
                 <div className='space-x-2'>
                   <Button
