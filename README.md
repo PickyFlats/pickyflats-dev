@@ -8,4 +8,4 @@
 - ⚛️ React 18
 - ✨ TypeScript
 - 💨 Tailwind CSS / MUI - (Material UI)
-- ⚡️ Appwrite Cloud
+- ⚡️ Nest.Js / MongoDB
