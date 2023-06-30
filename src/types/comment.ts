@@ -3,7 +3,7 @@ export interface Comment {
   userID: string;
   text: string;
   $id: string;
-  $createdAt: string;
+  createdAt: string;
   $updatedAt: string;
   $permissions: string[];
   $collectionId: string;

@@ -101,7 +101,7 @@ export const Comment = ({
               </div>
               <div className=''>
                 <p className='text-text-secondary-default  text-sm font-medium leading-[150%]'>
-                  {timeAgo(new Date(item.$createdAt))}
+                  {timeAgo(new Date(item.createdAt))}
                 </p>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import { ID, Query } from 'appwrite';
+import { Query } from 'appwrite';
 
 import api from '@/lib/api';
 import {
@@ -14,13 +14,11 @@ interface IProps {
 }
 
 export const createConversation = async (data) => {
-  const newConversation = await databases.createDocument(
-    DATABASE_ID,
-    CONVERSATIONS_ID,
-    ID.unique(),
+  const { data: newConversationId } = await api.post(
+    '/chat/create-connection',
     data
   );
-  return newConversation.$id;
+  return newConversationId;
 };
 
 export const getConversationByID = async (id) => {

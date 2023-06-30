@@ -105,7 +105,7 @@ export default function Acitivity() {
       const _notifications = await getNotificationByUserID(user?.$id);
       _notifications.sort(
         (a, b) =>
-          new Date(b.$createdAt).getTime() - new Date(a.$createdAt).getTime()
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
       setNotifications(_notifications);
     } catch (error) {

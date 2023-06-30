@@ -24,7 +24,7 @@ export const getReservedListingsForUser = async (userID) => {
     [
       Query.equal('userID', userID),
       // Query.orderAsc('userID'),
-      // Query.orderDesc('$createdAt'),
+      // Query.orderDesc('createdAt'),
     ]
   );
 

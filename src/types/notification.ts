@@ -9,7 +9,7 @@ export interface Notification {
   commentId?: string;
   likedUserID?: string;
   $id: string;
-  $createdAt: string;
+  createdAt: string;
   $updatedAt: string;
   $permissions: string[];
   $collectionId: string;

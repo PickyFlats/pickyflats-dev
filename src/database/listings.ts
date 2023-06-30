@@ -79,3 +79,11 @@ export const createListing = async (data) => {
 export const saveListingCost = async (data) => {
   await api.post('/listing-costs/new', data);
 };
+
+export const searchListingsByQuery = async (query) => {
+  const { data: searchResult } = await api.get(
+    `/listings/search?q=${query?.query}`
+  );
+
+  return searchResult;
+};

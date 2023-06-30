@@ -60,7 +60,7 @@ export const BookingFlatCard = ({ data }: { data }) => {
             </Link>
           </h3>
           <h4 className=' text-sm text-blue-600'>
-            {timeAgo(new Date(listing.$createdAt), { suffix: true })}
+            {timeAgo(new Date(listing.createdAt), { suffix: true })}
           </h4>
         </div>
         <div className='flex flex-wrap gap-2 p-1 '>

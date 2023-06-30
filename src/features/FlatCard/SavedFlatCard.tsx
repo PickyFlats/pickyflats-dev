@@ -140,7 +140,7 @@ export const SavedFlatCard = ({ data }: { data: Listing }) => {
             </Link>
           </h3>
           <h4 className=' text-sm text-blue-600'>
-            {timeAgo(new Date(data.$createdAt), { suffix: true })}
+            {timeAgo(new Date(data.createdAt), { suffix: true })}
           </h4>
         </div>
         <div className='m-auto w-[96%]'>
@@ -208,7 +208,7 @@ export const SavedFlatCard = ({ data }: { data: Listing }) => {
         onClose={() => setTourModal(false)}
       >
         <RequestForTourModal
-          sellerID={data.userID}
+          sellerID={data.listedBy}
           listingID={data?.$id}
           onClose={() => setTourModal(false)}
         />

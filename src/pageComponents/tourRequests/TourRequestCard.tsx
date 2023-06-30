@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { IoTimeSharp } from 'react-icons/io5';
 import { TbMessageCircle2Filled } from 'react-icons/tb';
 
-import { functions } from '@/lib/client-old';
 import { timeAgo } from '@/lib/date';
 
 import { createConversation } from '@/database/conversation';
@@ -26,8 +25,8 @@ export default function TourRequestCard({ data }: { data: TourRequest }) {
   const handleMessage = async () => {
     //!FUTURE - no new creation if conv already exits
     const conversation = await createConversation({
-      participants: [data.userID, data.sellerID],
-      chatStarter: data.sellerID,
+      participants: [data.userId, data.sellerId],
+      chatStarter: data.sellerId,
     });
     push(`/messages/${conversation}`);
   };
@@ -37,12 +36,12 @@ export default function TourRequestCard({ data }: { data: TourRequest }) {
     await updateTourRequestById(data.$id, {
       status: 'accepted',
     });
-    // send email notification using cloud function
+    //!TODO: send email notification using cloud function
 
-    await functions.createExecution(
-      'tourAcceptNotification',
-      JSON.stringify({ tourID: data.$id })
-    );
+    // await functions.createExecution(
+    //   'tourAcceptNotification',
+    //   JSON.stringify({ tourID: data.$id })
+    // );
 
     openSnackbar(
       'Tour request accepted. Please proceed with the scheduled tour.',
@@ -57,7 +56,7 @@ export default function TourRequestCard({ data }: { data: TourRequest }) {
     <div className='flex min-h-[200px] flex-col rounded-md bg-slate-100 p-5 text-center shadow-md max-sm:w-full'>
       <div className='flex-grow'>
         <h2 className=' text-xl font-semibold'>
-          {`${user?.firstName}${user?.lastName}`} Has Requested For Tour
+          {`${user?.firstName} ${user?.lastName}`} has requested for Tour
         </h2>
         <p className=' mt-3 text-sm text-[#6f7174]'>{data.note}</p>
         <p className=' mt-3 text-sm text-[#6f7174]'>
@@ -66,7 +65,7 @@ export default function TourRequestCard({ data }: { data: TourRequest }) {
               <IoTimeSharp />
             </IconButton>
           </span>
-          {timeAgo(new Date(data.$createdAt), { suffix: true })}
+          {timeAgo(new Date(data.createdAt), { suffix: true })}
         </p>
       </div>
 
