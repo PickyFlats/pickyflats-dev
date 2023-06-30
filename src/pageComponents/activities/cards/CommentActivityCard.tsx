@@ -52,7 +52,7 @@ export const CommentActivityCard = ({
 
               <div className='flex items-center'>
                 <p className='text-xs text-gray-500'>
-                  {new Date(notification.$createdAt).toLocaleString('en-US')}
+                  {new Date(notification.createdAt).toLocaleString('en-US')}
                 </p>
 
                 {/* //! FUTURE - reply feature */}

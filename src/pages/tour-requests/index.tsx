@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import { isEmptyArray } from '@/lib/helper';
 
-import { getTourRequestsForSeller, TourRequest } from '@/database/tourRequests';
+import {
+  getTourRequestsForCurrentSeller,
+  TourRequest,
+} from '@/database/tourRequests';
 
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import Loader from '@/components/Loader';
@@ -23,7 +26,7 @@ export default function TourRequestPage() {
 
   const fetchTourRequestedListingsData = async () => {
     try {
-      const requests: any = await getTourRequestsForSeller(user?.$id);
+      const requests: any = await getTourRequestsForCurrentSeller();
       setRequests(requests);
     } catch (error) {
       openSnackbar('Failed to fetch my listings', 'error');

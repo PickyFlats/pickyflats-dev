@@ -10,7 +10,7 @@ export interface Conversation {
   participant: Participant;
   lastMessage: Message;
 
-  $createdAt: string;
+  createdAt: string;
   $updatedAt: string;
 }
 
@@ -29,7 +29,7 @@ export interface Participant {
   city: string;
   email: string;
   $id: string;
-  $createdAt: string;
+  createdAt: string;
   $updatedAt: string;
   $permissions: string[];
   $collectionId: string;

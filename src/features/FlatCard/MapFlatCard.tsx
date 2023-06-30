@@ -5,8 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { FaRegBookmark } from 'react-icons/fa';
 import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
 
-import logger from '@/lib/logger';
-
 import { updateListingById } from '@/database/listing';
 import { AllFlatTypes } from '@/datas/flatTypes';
 
@@ -41,15 +39,7 @@ export const MapFlatCard = ({ data }: { data: Listing }) => {
   }, [user]);
 
   useEffect(() => {
-    const decodeGallery = () => {
-      try {
-        const _gallery: Iroom[] = JSON.parse(data!.gallery.toString());
-        setGallery(_gallery);
-      } catch (error) {
-        logger('Listing Gallery load failed');
-      }
-    };
-    decodeGallery();
+    setGallery(data.gallery || []);
   }, [data]);
 
   const handleLike = async () => {
@@ -178,13 +168,14 @@ export const MapFlatCard = ({ data }: { data: Listing }) => {
             </IconButton> */}
           </div>
           <div className='space-x-2'>
-            <Button
+            {/* //!: FUTURE - reservatio feature */}
+            {/* <Button
               variant='contained'
               className='bg-secondary-main !text-whtie relative top-1 h-[30px]'
-              onClick={handleReserveClick}
+              onClick={handleReserveClick} 
             >
               Reserve
-            </Button>
+            </Button> */}
             <Button
               variant='outlined'
               className='relative top-1 h-[30px]'
@@ -209,7 +200,7 @@ export const MapFlatCard = ({ data }: { data: Listing }) => {
         onClose={() => setTourModal(false)}
       >
         <RequestForTourModal
-          sellerID={data.userID}
+          sellerID={data.listedBy}
           listingID={data?.$id}
           onClose={() => setTourModal(false)}
         />

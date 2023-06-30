@@ -8,6 +8,6 @@ export interface Message {
   isRead: boolean;
   isDelivered: boolean;
   $id: string;
-  $createdAt: string;
+  createdAt: string;
   $updatedAt: string;
 }

@@ -130,8 +130,8 @@ export default function MessageItem({ index, chatUser, message }: IProps) {
         <span className='mr-2'>
           {isSenderMe ? 'You' : messageUser?.firstName}
         </span>
-        <span title={`${message.$createdAt}`}>
-          {formatDistanceToNow(new Date(message.$createdAt), {
+        <span title={`${message.createdAt}`}>
+          {formatDistanceToNow(new Date(message.createdAt), {
             addSuffix: true,
           })}
         </span>

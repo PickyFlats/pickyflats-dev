@@ -49,7 +49,7 @@ export const LikeActivityCard = ({
 
               <div className='flex items-center'>
                 <p className='text-xs text-gray-500'>
-                  {new Date(notification.$createdAt).toLocaleString('en-US')}
+                  {new Date(notification.createdAt).toLocaleString('en-US')}
                 </p>
               </div>
             </div>

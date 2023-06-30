@@ -20,11 +20,11 @@ export type Listing = {
   flatStreet1: string;
   flatStreet2: string;
   flatGeo: number[];
-  userID: string;
+  listedBy: string;
   liked_by: string[];
   saved_by: string[];
   sellerContact: any;
-  $createdAt: string;
+  createdAt: string;
   // $updatedAt: string;
   costs?: Costs;
 };
@@ -55,6 +55,6 @@ export interface Costs {
   listingID: string;
 
   // $id: string;
-  // $createdAt: string;
+  // createdAt: string;
   // $updatedAt: string;
 }

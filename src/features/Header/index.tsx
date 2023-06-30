@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { MdOutlineTune } from 'react-icons/md';
 
+import { searchListingsByQuery } from '@/database/listings';
+
 import useListingsStore from '@/store/useListingsStore';
 
 import FlatTypeSelectorOptions from '@/features/home/FlatTypeSelectorOptions';
@@ -12,17 +14,18 @@ import FilterModal from '../Filter';
 
 export const Header = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const { query, minPrice, maxPrice, purpose, bedrooms, bathrooms, kitchen } =
+  const { minPrice, maxPrice, purpose, bedrooms, bathrooms, kitchen } =
     useListingsStore();
 
-  const { setQuery } = useListingsStore();
+  const { query, setQuery, setListings } = useListingsStore();
 
   const router = useRouter();
   const handleSearch = (KeyCode: string) => {
     if (KeyCode == 'Enter') {
       router.push(
-        `/?query=${query}&min=${minPrice}&max=${maxPrice}&purpose=${purpose}&bedRoom=${bedrooms}&bathRoom=${bathrooms}&kitchen=${kitchen}`
+        `/?query=${searchTerm}&min=${minPrice}&max=${maxPrice}&purpose=${purpose}&bedRoom=${bedrooms}&bathRoom=${bathrooms}&kitchen=${kitchen}`
       );
     }
   };
@@ -37,17 +40,24 @@ export const Header = () => {
     const bathRoom = router.query.bathRoom ?? undefined;
     const kitchen = router.query.kitchen ?? undefined;
 
-    console.log(
-      'queries',
-      query,
-      minPrice,
-      maxPrice,
-      purpose,
-      bedRoom,
-      bathRoom,
-      kitchen
-    );
-  });
+    console.log('router.query? ', router.query);
+    // setQuery(router.query)
+    // console.log(
+    //   'queries',
+    //   query,
+    //   minPrice,
+    //   maxPrice,
+    //   purpose,
+    //   bedRoom,
+    //   bathRoom,
+    //   kitchen
+    // );
+    const searchByQuery = async () => {
+      const searchResults = await searchListingsByQuery(router.query);
+      setListings(searchResults);
+    };
+    searchByQuery();
+  }, [router.query]);
   // comment
   return (
     <div className=' flex h-[85vh] w-full flex-col text-center'>
@@ -58,8 +68,8 @@ export const Header = () => {
           <InputBase
             type='text'
             placeholder='Search Your dream home'
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             startAdornment={
               <FiSearch className='text-primary-main mx-3 cursor-pointer text-[25px] ' />
             }
