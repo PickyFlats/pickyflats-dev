@@ -108,7 +108,8 @@ export const MapFlatCard = ({ data }: { data: Listing }) => {
                   Buy
                   <span className=' text-primary-light font-normal'>
                     {' '}
-                    {data?.costs?.currency} {data?.costs?.monthlyCost}
+                    {data?.costs?.currency}{' '}
+                    {data?.costs?.monthlyCost || data?.costs?.purchaseCost}
                   </span>
                 </span>
               </div>

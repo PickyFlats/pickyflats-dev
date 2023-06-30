@@ -6,10 +6,11 @@ import { BiComment } from 'react-icons/bi';
 import { FcLike } from 'react-icons/fc';
 import { MdBathroom, MdBedroomParent, MdKitchen } from 'react-icons/md';
 
-import { CONTENT_BUCKET, storage } from '@/lib/client-old';
+import api from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
+import { deleteListing } from '@/database/listing';
 import { AllFlatTypes } from '@/datas/flatTypes';
 
 import { Iroom } from '@/store/flatStore';
@@ -37,14 +38,15 @@ export const MyFlatCard = (props: Iprop) => {
   const { refresh } = useListingsStore();
   const { openSnackbar } = useSnackbarStore();
   const deleteFlatListing = async () => {
-    const _gallery: Iroom[] = JSON.parse(data!.gallery.toString());
+    // const _gallery: Iroom[] = JSON.parse(data!.gallery.toString());
+    const _gallery: Iroom[] = data?.gallery || [];
 
     for await (const gallery of _gallery) {
       for await (const photoID of gallery.photos) {
-        await storage.deleteFile(CONTENT_BUCKET, photoID);
+        await api.delete(`/files/${photoID}`);
       }
     }
-    // await deleteListing(data?.$id, data?.costs?.$id);
+    await deleteListing(data?.$id);
 
     openSnackbar('Listing delete successfully', 'warning', {
       horizontal: 'center',
@@ -92,7 +94,7 @@ export const MyFlatCard = (props: Iprop) => {
           'relative flex h-[450px]  w-[300px] flex-col items-center justify-center rounded-lg p-3 pt-4 align-middle'
         )}
       >
-        <div className='relative z-50 h-[30vh] w-full rounded-3xl'>
+        <div className='relative z-50 h-[30vh] w-full overflow-hidden rounded-3xl'>
           <ImageCard fileID={flatImageID} />
           {/* <img alt='' src={flatImage} className='h-full w-full rounded-3xl' /> */}
           {/* <Image src='/images/1.jpg' alt='room ' fill className='rounded-md' /> */}
@@ -112,7 +114,8 @@ export const MyFlatCard = (props: Iprop) => {
         </div>
         <div className='relative h-auto w-full pt-3'>
           <h3 className='line-clamp-1 p-1 text-lg font-bold text-white'>
-            {data?.costs?.currency} {data?.costs?.monthlyCost}
+            {data?.costs?.currency}{' '}
+            {data?.costs?.monthlyCost || data?.costs?.purchaseCost}
           </h3>
           <h3 className='line-clamp-1 p-1 text-lg font-bold text-blue-950'>
             <Link href={`/flats/${data?.$id}`}>

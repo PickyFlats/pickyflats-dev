@@ -160,7 +160,7 @@ export const DetailView = () => {
       await createListingLikeNotification(
         listing?.$id,
         user.$id,
-        listing?.userID
+        listing?.listedBy
       );
       //!FEATURE - email for notification update
     }
@@ -331,7 +331,10 @@ export const DetailView = () => {
                 </section>
               )}
               <section id='comment'>
-                <Comment listingID={listing?.$id} sellerID={listing?.userID} />
+                <Comment
+                  listingID={listing?.$id}
+                  sellerID={listing?.listedBy}
+                />
               </section>
             </div>
           </div>
@@ -351,7 +354,7 @@ export const DetailView = () => {
         onClose={() => setTourModal(false)}
       >
         <RequestForTourModal
-          sellerID={listing?.userID}
+          sellerID={listing?.listedBy}
           listingID={listing?.$id}
           onClose={() => setTourModal(false)}
         />
