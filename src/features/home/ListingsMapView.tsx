@@ -35,7 +35,11 @@ export default function ListingsMapView({
               position={item.flatGeo as any}
               icon={divIcon({
                 className: 'custom-icon',
-                html: `<div class="py-2 text-center bg-white rounded-[20px] !scale-[1.2] border border-solid border-red-200"><div class="icon-label text-primary-main font-semibold">${`${item?.costs?.currency} ${item?.costs?.monthlyCost}`}</div></div>`,
+                html: `<div class="py-2 text-center bg-white rounded-[20px] !scale-[1.2] border border-solid border-red-200"><div class="icon-label text-primary-main font-semibold">${`${
+                  item?.costs?.currency
+                } ${
+                  item?.costs?.monthlyCost || item?.costs?.purchaseCost
+                }`}</div></div>`,
                 iconSize: [80, 40],
               })}
             >
